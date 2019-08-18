@@ -9,8 +9,49 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r cars}
+```{r process}
 tonghop <- read.csv("./csv/tonghop_processed.csv")
-head(tonghop)
+# hoatchat_dvt
+tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
+
+# biet duoc
+bietduoc_index <- which(tonghop$nhomBD == 1) 
+bietduoc_df <- tonghop[bietduoc_index, ]
+bietduoc_aggregate_df <- aggregate(xuattrongky_sl ~ hoatchat_dvt, bietduoc_df,FUN = sum)
+bietduoc_aggregate_df$xuattrongky_thanhtien <- aggregate(xuattrongky_thanhtien ~ hoatchat_dvt, bietduoc_df,FUN = sum)$xuattrongky_thanhtien
+bietduoc_sl_thuoc <- nrow(bietduoc_aggregate_df)
+bietduoc_coso_thuoc_sd <- sum(bietduoc_aggregate_df$xuattrongky_sl)
+bietduoc_cp <- sum(bietduoc_aggregate_df$xuattrongky_thanhtien)
+
+# generic
+generic_index <- which(tonghop$nhomBD == 2) 
+generic_df <- tonghop[generic_index, ]
+generic_aggregate_df <- aggregate(xuattrongky_sl ~ hoatchat_dvt, generic_df,FUN = sum)
+generic_aggregate_df$xuattrongky_thanhtien <- aggregate(xuattrongky_thanhtien ~ hoatchat_dvt, generic_df,FUN = sum)$xuattrongky_thanhtien
+generic_sl_thuoc <- nrow(generic_aggregate_df)
+generic_coso_thuoc_sd <- sum(generic_aggregate_df$xuattrongky_sl)
+generic_cp <- sum(generic_aggregate_df$xuattrongky_thanhtien)
+
+# tong so luong thuoc theo bietduoc/generic
+tong_sl_thuoc <- bietduoc_sl_thuoc + generic_sl_thuoc
+tong_coso_thuoc_sd <- bietduoc_coso_thuoc_sd + generic_coso_thuoc_sd
+tong_cp <- bietduoc_cp + generic_cp
+
+bietduoc_phantram <- bietduoc_sl_thuoc / tong_sl_thuoc
+generic_phantram <- generic_sl_thuoc / tong_sl_thuoc
+bietduoc_coso_sd_phantram <- bietduoc_coso_thuoc_sd / tong_coso_thuoc_sd
+generic_coso_sd_phantram <- generic_coso_thuoc_sd / tong_coso_thuoc_sd
+
+```
+
+```{r bietduoc_generic}
+bietduoc_generic_df <- data.frame(matrix(nrow = 2))
+bietduoc_generic_df$phan_loai <- c("Biet duoc", "Generic")
+bietduoc_generic_df$sl_thuoc <- c(bietduoc_sl_thuoc, generic_sl_thuoc)
+bietduoc_generic_df$thuoc_phantram <- c(bietduoc_phantram, generic_phantram)
+bietduoc_generic_df$coso_thuoc_sd <- c(bietduoc_coso_thuoc_sd, generic_coso_thuoc_sd)
+bietduoc_generic_df$coso_thuoc_sd_phantram <- c(bietduoc_coso_sd_phantram, generic_coso_sd_phantram)
+
+bietduoc_generic_df
 ```
 
