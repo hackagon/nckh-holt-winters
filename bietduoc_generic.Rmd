@@ -9,7 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r process}
+```{r echo=FALSE, results='hide',message=FALSE}
 tonghop <- read.csv("./csv/tonghop_processed.csv")
 # hoatchat_dvt
 tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
@@ -41,17 +41,22 @@ bietduoc_phantram <- bietduoc_sl_thuoc / tong_sl_thuoc
 generic_phantram <- generic_sl_thuoc / tong_sl_thuoc
 bietduoc_coso_sd_phantram <- bietduoc_coso_thuoc_sd / tong_coso_thuoc_sd
 generic_coso_sd_phantram <- generic_coso_thuoc_sd / tong_coso_thuoc_sd
+bietduoc_cp_phantram <- bietduoc_cp / tong_cp
+generic_cp_phantram <- generic_cp / tong_cp
 
-```
-
-```{r bietduoc_generic}
-bietduoc_generic_df <- data.frame(matrix(nrow = 2))
+# generate bietduoc_generic_df
+bietduoc_generic_df <- data.frame(matrix(ncol = 0, nrow = 2))
 bietduoc_generic_df$phan_loai <- c("Biet duoc", "Generic")
 bietduoc_generic_df$sl_thuoc <- c(bietduoc_sl_thuoc, generic_sl_thuoc)
 bietduoc_generic_df$thuoc_phantram <- c(bietduoc_phantram, generic_phantram)
 bietduoc_generic_df$coso_thuoc_sd <- c(bietduoc_coso_thuoc_sd, generic_coso_thuoc_sd)
 bietduoc_generic_df$coso_thuoc_sd_phantram <- c(bietduoc_coso_sd_phantram, generic_coso_sd_phantram)
+bietduoc_generic_df$cp_thuoc <- c(bietduoc_cp, generic_cp)
+bietduoc_generic_df$cp_thuoc_phantram <- c(bietduoc_cp_phantram, generic_cp_phantram)
+```
 
+**Dac diem cac thuoc su dung theo phan loai thuoc biet duoc va generic tai benh vien TMHH giai doan 2014 - 2018**
+```{r bietduoc_generic}
 bietduoc_generic_df
 ```
 
