@@ -61,7 +61,7 @@ bietduoc_generic_df$cp_thuoc_phantram <- c(bietduoc_cp_phantram, generic_cp_phan
 
 **3.1.1 Dac diem cac thuoc su dung theo phan loai thuoc biet duoc va generic tai benh vien TMHH giai doan 2014 - 2018**
 
-* Mo ta dac diem cua cac thuoc su dung theo phan loai thuoc biet duoc va generic trong 5 nam tu 2014 - 2018 *
+* Mo ta dac diem cua cac thuoc su dung theo phan loai thuoc biet duoc va generic trong 5 nam tu 2014 - 2018
 
 ```{r bietduoc_generic}
 knitr::kable(bietduoc_generic_df, format="html", 
@@ -90,3 +90,24 @@ knitr::kable(bietduoc_nam, format="html",
              col.names = c("nam", "co so", "chi phi", "so luong"))
 ```
 
+```{r echo=FALSE, results='hide',message=FALSE}
+generic_nam <- aggregate(x=list(
+  coso = as.numeric(generic_df$xuattrongky_sl),
+  chiphi = as.numeric(generic_df$xuattrongky_thanhtien)
+  ), by=list(nam=generic_df$nam), FUN=sum)
+
+bietduoc_nam$soluong <- c(
+  length(unique(generic_df[which(generic_df$nam == 2014), ]$hoatchat)),
+  length(unique(generic_df[which(generic_df$nam == 2015), ]$hoatchat)),
+  length(unique(generic_df[which(generic_df$nam == 2016), ]$hoatchat)),
+  length(unique(generic_df[which(generic_df$nam == 2017), ]$hoatchat)),
+  length(unique(generic_df[which(generic_df$nam == 2018), ]$hoatchat))
+)
+```
+
+* Mo ta tang giam biet duoc qua cac nam
+
+```{r tyle_generic}
+knitr::kable(bietduoc_nam, format="html", 
+             col.names = c("nam", "co so", "chi phi", "so luong"))
+```
