@@ -1,6 +1,6 @@
 **3.1.1 Dac diem cac thuoc su dung theo phan loai thuoc biet duoc va generic tai benh vien TMHH giai doan 2014 - 2018**
 
--   Mo ta dac diem cua cac thuoc su dung theo phan loai thuoc biet duoc va generic trong 5 nam tu 2014 - 2018 \*
+-   Mo ta dac diem cua cac thuoc su dung theo phan loai thuoc biet duoc va generic trong 5 nam tu 2014 - 2018
 
 ``` r
 knitr::kable(bietduoc_generic_df, format="html", 
@@ -175,6 +175,103 @@ so luong
 </td>
 <td style="text-align:right;">
 87
+</td>
+</tr>
+</tbody>
+</table>
+-   Mo ta tang giam biet duoc qua cac nam
+
+``` r
+knitr::kable(bietduoc_nam, format="html", 
+             col.names = c("nam", "co so", "chi phi", "so luong"))
+```
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+nam
+</th>
+<th style="text-align:right;">
+co so
+</th>
+<th style="text-align:right;">
+chi phi
+</th>
+<th style="text-align:right;">
+so luong
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2014
+</td>
+<td style="text-align:right;">
+965981
+</td>
+<td style="text-align:right;">
+102665064145
+</td>
+<td style="text-align:right;">
+266
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2015
+</td>
+<td style="text-align:right;">
+1030140
+</td>
+<td style="text-align:right;">
+126993019966
+</td>
+<td style="text-align:right;">
+233
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2016
+</td>
+<td style="text-align:right;">
+961507
+</td>
+<td style="text-align:right;">
+171503068884
+</td>
+<td style="text-align:right;">
+236
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2017
+</td>
+<td style="text-align:right;">
+1228850
+</td>
+<td style="text-align:right;">
+213542305364
+</td>
+<td style="text-align:right;">
+222
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2018
+</td>
+<td style="text-align:right;">
+1270400
+</td>
+<td style="text-align:right;">
+269757537467
+</td>
+<td style="text-align:right;">
+212
 </td>
 </tr>
 </tbody>
