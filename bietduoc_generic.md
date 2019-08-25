@@ -1,4 +1,6 @@
-**Dac diem cac thuoc su dung theo phan loai thuoc biet duoc va generic tai benh vien TMHH giai doan 2014 - 2018**
+**3.1.1 Dac diem cac thuoc su dung theo phan loai thuoc biet duoc va generic tai benh vien TMHH giai doan 2014 - 2018**
+
+-   Mo ta dac diem cua cac thuoc su dung theo phan loai thuoc biet duoc va generic trong 5 nam tu 2014 - 2018 \*
 
 ``` r
 knitr::kable(bietduoc_generic_df, format="html", 
