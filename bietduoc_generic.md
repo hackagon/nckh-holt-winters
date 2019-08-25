@@ -82,6 +82,8 @@ Generic
 </tr>
 </tbody>
 </table>
+-   Mo ta tang giam biet duoc qua cac nam
+
 ``` r
 knitr::kable(bietduoc_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))

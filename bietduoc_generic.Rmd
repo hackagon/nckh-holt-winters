@@ -83,7 +83,10 @@ bietduoc_nam$soluong <- c(
 )
 ```
 
+* Mo ta tang giam biet duoc qua cac nam
+
 ```{r tyle_bietduoc}
 knitr::kable(bietduoc_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))
 ```
+
