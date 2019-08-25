@@ -10,7 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r echo=FALSE, results='hide',message=FALSE}
-tonghop <- read.csv("./csv/tonghop_processed.csv")
+tonghop <- read.csv("./csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+tonghop$dem <- rep(1, nrow(tonghop))
+tonghop$xuattrongky_sl[which(is.na(tonghop$xuattrongky_sl))] <- 0
+tonghop$xuattrongky_thanhtien[which(is.na(tonghop$xuattrongky_thanhtien))] <- 0
+
 # hoatchat_dvt
 tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
 
@@ -65,6 +69,21 @@ knitr::kable(bietduoc_generic_df, format="html",
 ```
 
 ```{r echo=FALSE, results='hide',message=FALSE}
-aggregate(as.numeric(bietduoc_df$xuattrongky_sl), by=list(nam=bietduoc_df$nam), FUN=sum)
+bietduoc_nam <- aggregate(x=list(
+  coso = as.numeric(bietduoc_df$xuattrongky_sl),
+  chiphi = as.numeric(bietduoc_df$xuattrongky_thanhtien)
+  ), by=list(nam=bietduoc_df$nam), FUN=sum)
+
+bietduoc_nam$soluong <- c(
+  length(unique(bietduoc_df[which(bietduoc_df$nam == 2014), ]$hoatchat)),
+  length(unique(bietduoc_df[which(bietduoc_df$nam == 2015), ]$hoatchat)),
+  length(unique(bietduoc_df[which(bietduoc_df$nam == 2016), ]$hoatchat)),
+  length(unique(bietduoc_df[which(bietduoc_df$nam == 2017), ]$hoatchat)),
+  length(unique(bietduoc_df[which(bietduoc_df$nam == 2018), ]$hoatchat))
+)
 ```
 
+```{r tyle_bietduoc}
+knitr::kable(bietduoc_nam, format="html", 
+             col.names = c("nam", "co so", "chi phi", "so luong"))
+```
