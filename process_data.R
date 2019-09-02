@@ -27,5 +27,11 @@ tonghop$dvt[which(tonghop$dvt == "bình")] <- "binh"
 
 unique(tonghop$dvt)
 
+# hoat chat
+tonghop$hoatchat[which(tonghop$hoatchat == "sulfamethoxazol_trimethoprim")] <- "sulfamethoxazole_trimethoprim"
+tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "domperidon") )] <- 33
+tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "spiramycin_metronidazo") )] <- 8
+tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "succimer") )] <- 4
+
 # export file
 write.csv(tonghop, "tonghop_processed.csv")

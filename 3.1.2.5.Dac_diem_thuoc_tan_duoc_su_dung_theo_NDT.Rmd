@@ -1,0 +1,58 @@
+---
+title: "3.1.2.5. Dac diem thuoc tan duoc su dung theo nhom dieu tri"
+output: html_document
+  md_document:
+      variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+tonghop <- read.csv("./csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+tonghop$dem <- rep(1, nrow(tonghop))
+tonghop$xuattrongky_sl[which(is.na(tonghop$xuattrongky_sl))] <- 0
+tonghop$xuattrongky_thanhtien[which(is.na(tonghop$xuattrongky_thanhtien))] <- 0
+
+# hoatchat_dvt
+tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
+
+```
+
+* So luong thuoc tan duoc theo nhom dieu tri *
+
+```{r}
+tonghop %>%
+  group_by(nhomdieutri) %>%
+  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE)) %>%
+  arrange(desc(xuattrongky_sl))
+```
+
+* So luong hoat chat theo nhom dieu tri *
+```{r}
+number_end <- str_locate(tonghop$hoatchat, str_extract(tonghop$hoatchat, "_\\d"))[,1]
+number_end[which(is.na(number_end))] <- -1
+number_start <- rep(1, length(number_end))
+hoatchat_ko_hamluong <- tonghop$hoatchat %>% str_sub(number_start, number_end-1)
+tonghop$hoatchat_ko_hamluong <- hoatchat_ko_hamluong
+
+test <- tonghop %>%
+  group_by(nhomdieutri) %>%
+  distinct(hoatchat_ko_hamluong)
+test <- as.data.frame(test)
+
+i <- 1
+while(i <= length(unique(hoatchat_ko_hamluong))){
+  index <- which(test$hoatchat_ko_hamluong == unique(hoatchat_ko_hamluong)[i])
+  if(length(index) > 1){
+    print(index)
+  }
+  
+  i <- i + 1
+}
+```
+
+

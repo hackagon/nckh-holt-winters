@@ -96,7 +96,7 @@ generic_nam <- aggregate(x=list(
   chiphi = as.numeric(generic_df$xuattrongky_thanhtien)
   ), by=list(nam=generic_df$nam), FUN=sum)
 
-bietduoc_nam$soluong <- c(
+generic_nam$soluong <- c(
   length(unique(generic_df[which(generic_df$nam == 2014), ]$hoatchat)),
   length(unique(generic_df[which(generic_df$nam == 2015), ]$hoatchat)),
   length(unique(generic_df[which(generic_df$nam == 2016), ]$hoatchat)),
@@ -105,9 +105,9 @@ bietduoc_nam$soluong <- c(
 )
 ```
 
-* Mo ta tang giam biet duoc qua cac nam
+* Mo ta tang giam generic qua cac nam
 
 ```{r tyle_generic}
-knitr::kable(bietduoc_nam, format="html", 
+knitr::kable(generic_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))
 ```

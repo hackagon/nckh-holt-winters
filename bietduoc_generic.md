@@ -179,10 +179,10 @@ so luong
 </tr>
 </tbody>
 </table>
--   Mo ta tang giam biet duoc qua cac nam
+-   Mo ta tang giam generic qua cac nam
 
 ``` r
-knitr::kable(bietduoc_nam, format="html", 
+knitr::kable(generic_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))
 ```
 
@@ -209,10 +209,10 @@ so luong
 2014
 </td>
 <td style="text-align:right;">
-965981
+3524865
 </td>
 <td style="text-align:right;">
-102665064145
+44364976151
 </td>
 <td style="text-align:right;">
 266
@@ -223,10 +223,10 @@ so luong
 2015
 </td>
 <td style="text-align:right;">
-1030140
+3221844
 </td>
 <td style="text-align:right;">
-126993019966
+47108981914
 </td>
 <td style="text-align:right;">
 233
@@ -237,10 +237,10 @@ so luong
 2016
 </td>
 <td style="text-align:right;">
-961507
+4027946
 </td>
 <td style="text-align:right;">
-171503068884
+61974161254
 </td>
 <td style="text-align:right;">
 236
@@ -251,10 +251,10 @@ so luong
 2017
 </td>
 <td style="text-align:right;">
-1228850
+3289890
 </td>
 <td style="text-align:right;">
-213542305364
+58332264306
 </td>
 <td style="text-align:right;">
 222
@@ -265,10 +265,10 @@ so luong
 2018
 </td>
 <td style="text-align:right;">
-1270400
+3263957
 </td>
 <td style="text-align:right;">
-269757537467
+59427104346
 </td>
 <td style="text-align:right;">
 212
