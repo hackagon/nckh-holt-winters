@@ -88,6 +88,7 @@ bietduoc_nam$soluong <- c(
 ```{r tyle_bietduoc}
 knitr::kable(bietduoc_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))
+
 ```
 
 ```{r echo=FALSE, results='hide',message=FALSE}

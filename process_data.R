@@ -28,7 +28,9 @@ tonghop$dvt[which(tonghop$dvt == "bình")] <- "binh"
 unique(tonghop$dvt)
 
 # hoat chat
+tonghop$hoatchat <- gsub("sulfamethoxazol_trimethoprim", tonghop$hoatchat,replacement = "sulfamethoxazole_trimethoprim")
 tonghop$hoatchat[which(tonghop$hoatchat == "sulfamethoxazol_trimethoprim")] <- "sulfamethoxazole_trimethoprim"
+tonghop$hoatchat[which(tonghop$hoatchat == "sulfamethoxazole_trimethoprim")] <- "sulfamethoxazole_trimethoprim"
 tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "domperidon") )] <- 33
 tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "spiramycin_metronidazo") )] <- 8
 tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "succimer") )] <- 4

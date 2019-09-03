@@ -42,7 +42,7 @@ Biet duoc
 119
 </td>
 <td style="text-align:right;">
-0.2505263
+0.2515856
 </td>
 <td style="text-align:right;">
 5456878
@@ -62,10 +62,10 @@ Biet duoc
 Generic
 </td>
 <td style="text-align:right;">
-356
+354
 </td>
 <td style="text-align:right;">
-0.7494737
+0.7484144
 </td>
 <td style="text-align:right;">
 17328502
@@ -215,7 +215,7 @@ so luong
 44364976151
 </td>
 <td style="text-align:right;">
-266
+264
 </td>
 </tr>
 <tr>
@@ -229,7 +229,7 @@ so luong
 47108981914
 </td>
 <td style="text-align:right;">
-233
+232
 </td>
 </tr>
 <tr>
@@ -243,7 +243,7 @@ so luong
 61974161254
 </td>
 <td style="text-align:right;">
-236
+235
 </td>
 </tr>
 <tr>
@@ -257,7 +257,7 @@ so luong
 58332264306
 </td>
 <td style="text-align:right;">
-222
+221
 </td>
 </tr>
 <tr>

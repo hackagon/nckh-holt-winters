@@ -1,8 +1,8 @@
 ---
 title: "3.1.2.5. Dac diem thuoc tan duoc su dung theo nhom dieu tri"
-output: html_document
+output:
   md_document:
-      variant: markdown_github
+    variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +11,7 @@ library(dplyr)
 library(stringr)
 ```
 
-```{r}
+```{r import_data}
 tonghop <- read.csv("./csv/tonghop_processed.csv", stringsAsFactors = FALSE)
 tonghop$dem <- rep(1, nrow(tonghop))
 tonghop$xuattrongky_sl[which(is.na(tonghop$xuattrongky_sl))] <- 0
@@ -22,37 +22,33 @@ tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
 
 ```
 
-* So luong thuoc tan duoc theo nhom dieu tri *
-
-```{r}
-tonghop %>%
+```{r nhomdieutri_sL_thuoc, echo=FALSE, results='hide',message=FALSE}
+nhomdieutri_sl_thuoc <- tonghop %>%
   group_by(nhomdieutri) %>%
-  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE)) %>%
-  arrange(desc(xuattrongky_sl))
+  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE))
+  #arrange(desc(xuattrongky_sl))
 ```
 
-* So luong hoat chat theo nhom dieu tri *
-```{r}
+```{r nhomdieutri_sl_hoatchat, echo=FALSE, message=FALSE, results='hide'}
 number_end <- str_locate(tonghop$hoatchat, str_extract(tonghop$hoatchat, "_\\d"))[,1]
 number_end[which(is.na(number_end))] <- -1
 number_start <- rep(1, length(number_end))
 hoatchat_ko_hamluong <- tonghop$hoatchat %>% str_sub(number_start, number_end-1)
 tonghop$hoatchat_ko_hamluong <- hoatchat_ko_hamluong
 
-test <- tonghop %>%
+nhomdieutri_sl_hoatchat <- tonghop %>%
   group_by(nhomdieutri) %>%
-  distinct(hoatchat_ko_hamluong)
-test <- as.data.frame(test)
+  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong))
+  #arrange(desc(sl_hoatchat_ko_hamluong))
 
-i <- 1
-while(i <= length(unique(hoatchat_ko_hamluong))){
-  index <- which(test$hoatchat_ko_hamluong == unique(hoatchat_ko_hamluong)[i])
-  if(length(index) > 1){
-    print(index)
-  }
-  
-  i <- i + 1
-}
+tonghop_nhomdt <- cbind(nhomdieutri_sl_thuoc, nhomdieutri_sl_hoatchat$sl_hoatchat_ko_hamluong)
+names(tonghop_nhomdt)[3] <- "sl_hoatchat_ko_hamluong"
 ```
 
+* Mo ta so luong thuoc va so luong hoat chat duoc su dung nhieu nhat theo nhom dieu tri tai benh vien *
+```{r tyle_bietduoc}
+knitr::kable(tonghop_nhomdt, format="html", 
+             col.names = c("Nhom DT", "SL thuoc", "hoat chat"))
+
+```
 
