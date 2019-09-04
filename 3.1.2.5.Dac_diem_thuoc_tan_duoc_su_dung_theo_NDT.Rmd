@@ -54,10 +54,63 @@ nhomdieutri_sl_hoatchat <- tonghop %>%
   top_n(5)
 ```
 
+```{r}
+nhomdieutri_hoatchat_nam <- function(vector, namx){
+tonghop %>%
+  filter(nam == namx) %>%
+  group_by(nhomdieutri) %>%
+  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong))  %>%
+  mutate(sl_hoatchat_ko_hamluong_percent = sl_hoatchat_ko_hamluong*100/sum(sl_hoatchat_ko_hamluong)) %>%
+  filter(nhomdieutri %in% vector)
+}
+nhomdieutri_hoatchat_nam_2014 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2014)
+nhomdieutri_hoatchat_nam_2015 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2015)
+nhomdieutri_hoatchat_nam_2016 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2016)
+nhomdieutri_hoatchat_nam_2017 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2017)
+nhomdieutri_hoatchat_nam_2018 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2018)
+  
+```
+
 ##So luong hoat chat
 **So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong hoat chat cao nhat)**
 ```{r}
 knitr::kable(nhomdieutri_sl_hoatchat, format="html", 
              col.names = c("Nhom DT", "SL hoat chat", "%"))
 
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2014, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2014, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2015**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2015, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2016**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2016, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2017**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2017, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
+```
+
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2018**
+```{r}
+knitr::kable(nhomdieutri_hoatchat_nam_2018, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat", "%"))
 ```
