@@ -51,9 +51,9 @@ nhomdieutri_sl_hoatchat <- tonghop %>%
   top_n(5)
 ```
 
-* Mo ta so luong thuoc va so luong hoat chat duoc su dung nhieu nhat theo nhom dieu tri tai benh vien *
+* So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong hoat chat cao nhat) *
 ```{r tyle_bietduoc}
-knitr::kable(nhomdieutri_sl_thuoc, format="html", 
+knitr::kable(nhomdieutri_sl_hoatchat, format="html", 
              col.names = c("Nhom DT", "SL hoat chat"))
 
 ```
