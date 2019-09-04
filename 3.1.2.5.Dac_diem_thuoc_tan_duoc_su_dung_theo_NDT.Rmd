@@ -25,8 +25,16 @@ tonghop$hoatchat_dvt <- paste(tonghop$hoatchat, tonghop$dvt, sep = "_")
 ```{r nhomdieutri_sL_thuoc, echo=FALSE, results='hide',message=FALSE}
 nhomdieutri_sl_thuoc <- tonghop %>%
   group_by(nhomdieutri) %>%
-  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE))
-  #arrange(desc(xuattrongky_sl))
+  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE)) %>%
+  arrange(desc(xuattrongky_sl)) %>%
+  top_n(5)
+```
+
+* So luong thuoc duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong thuoc su dung cao nhat) * 
+
+```{r nhomdieutri_sl_thuoc}
+knitr::kable(nhomdieutri_sl_thuoc, format="html", 
+             col.names = c("Nhom DT", "SL thuoc"))
 ```
 
 ```{r nhomdieutri_sl_hoatchat, echo=FALSE, message=FALSE, results='hide'}
@@ -38,17 +46,15 @@ tonghop$hoatchat_ko_hamluong <- hoatchat_ko_hamluong
 
 nhomdieutri_sl_hoatchat <- tonghop %>%
   group_by(nhomdieutri) %>%
-  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong))
-  #arrange(desc(sl_hoatchat_ko_hamluong))
-
-tonghop_nhomdt <- cbind(nhomdieutri_sl_thuoc, nhomdieutri_sl_hoatchat$sl_hoatchat_ko_hamluong)
-names(tonghop_nhomdt)[3] <- "sl_hoatchat_ko_hamluong"
+  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong)) %>%
+  arrange(desc(sl_hoatchat_ko_hamluong)) %>%
+  top_n(5)
 ```
 
 * Mo ta so luong thuoc va so luong hoat chat duoc su dung nhieu nhat theo nhom dieu tri tai benh vien *
 ```{r tyle_bietduoc}
-knitr::kable(tonghop_nhomdt, format="html", 
-             col.names = c("Nhom DT", "SL thuoc", "hoat chat"))
+knitr::kable(nhomdieutri_sl_thuoc, format="html", 
+             col.names = c("Nhom DT", "SL hoat chat"))
 
 ```
 
