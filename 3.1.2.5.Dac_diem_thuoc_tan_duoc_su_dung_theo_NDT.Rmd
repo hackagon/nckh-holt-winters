@@ -54,7 +54,7 @@ nhomdieutri_sl_hoatchat <- tonghop %>%
   top_n(5)
 ```
 
-```{r}
+```{r nhomdieutri_sl_hoatchat_nam, echo=FALSE, message=FALSE, results='hide'}
 nhomdieutri_hoatchat_nam <- function(vector, namx){
 tonghop %>%
   filter(nam == namx) %>%
