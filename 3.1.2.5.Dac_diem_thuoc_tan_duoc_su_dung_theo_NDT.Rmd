@@ -39,6 +39,47 @@ knitr::kable(nhomdieutri_sl_thuoc, format="html",
              col.names = c("Nhom DT", "SL thuoc", "%"))
 ```
 
+```{r nhomdieutri_sl_thuoc_nam, echo=FALSE, message=FALSE, results='hide'}
+nhomdieutri_sl_thuoc_nam <- function(vector, namx){
+tonghop %>%
+  filter(nam == namx) %>%
+  group_by(nhomdieutri) %>%
+  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE))  %>%
+  mutate(xuattrongky_sl_percent = xuattrongky_sl*100/sum(xuattrongky_sl)) %>%
+  filter(nhomdieutri %in% vector)
+}
+nhomdieutri_sl_thuoc_nam_2014 <- nhomdieutri_sl_thuoc_nam(c(23, 18, 20, 39, 48), 2014)
+nhomdieutri_sl_thuoc_nam_2015 <- nhomdieutri_sl_thuoc_nam(c(23, 18, 20, 39, 48), 2015)
+nhomdieutri_sl_thuoc_nam_2016 <- nhomdieutri_sl_thuoc_nam(c(23, 18, 20, 39, 48), 2016)
+nhomdieutri_sl_thuoc_nam_2017 <- nhomdieutri_sl_thuoc_nam(c(23, 18, 20, 39, 48), 2017)
+nhomdieutri_sl_thuoc_nam_2018 <- nhomdieutri_sl_thuoc_nam(c(23, 18, 20, 39, 48), 2018)
+```
+
+**Co so thuoc theo nhom dieu tri nam 2014**
+```{r}
+knitr::kable(nhomdieutri_sl_thuoc_nam_2014, format="html", 
+             col.names = c("Nhom DT", "Co so thuoc", "%"))
+```
+**Co so thuoc theo nhom dieu tri nam 2015**
+```{r}
+knitr::kable(nhomdieutri_sl_thuoc_nam_2015, format="html", 
+             col.names = c("Nhom DT", "Co so thuoc", "%"))
+```
+**Co so thuoc theo nhom dieu tri nam 2016**
+```{r}
+knitr::kable(nhomdieutri_sl_thuoc_nam_2016, format="html", 
+             col.names = c("Nhom DT", "Co so thuoc", "%"))
+```
+**Co so thuoc theo nhom dieu tri nam 2017**
+```{r}
+knitr::kable(nhomdieutri_sl_thuoc_nam_2017, format="html", 
+             col.names = c("Nhom DT", "Co so thuoc", "%"))
+```
+**Co so thuoc theo nhom dieu tri nam 2018**
+```{r}
+knitr::kable(nhomdieutri_sl_thuoc_nam_2018, format="html", 
+             col.names = c("Nhom DT", "Co so thuoc", "%"))
+```
 
 ##So luong hoat chat
 **So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong hoat chat cao nhat)**
