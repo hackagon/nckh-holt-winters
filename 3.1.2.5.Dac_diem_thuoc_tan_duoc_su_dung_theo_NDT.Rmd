@@ -11,7 +11,7 @@ library(dplyr)
 library(stringr)
 ```
 
-```{r import_data}
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
 tonghop <- read.csv("./csv/tonghop_processed.csv", stringsAsFactors = FALSE)
 tonghop$dem <- rep(1, nrow(tonghop))
 tonghop$xuattrongky_sl[which(is.na(tonghop$xuattrongky_sl))] <- 0
@@ -39,6 +39,9 @@ knitr::kable(nhomdieutri_sl_thuoc, format="html",
              col.names = c("Nhom DT", "SL thuoc", "%"))
 ```
 
+
+##So luong hoat chat
+**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong hoat chat cao nhat)**
 ```{r nhomdieutri_sl_hoatchat, echo=FALSE, message=FALSE, results='hide'}
 number_end <- str_locate(tonghop$hoatchat, str_extract(tonghop$hoatchat, "_\\d"))[,1]
 number_end[which(is.na(number_end))] <- -1
@@ -71,8 +74,7 @@ nhomdieutri_hoatchat_nam_2018 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2018)
   
 ```
 
-##So luong hoat chat
-**So luong hoat chat duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong hoat chat cao nhat)**
+
 ```{r}
 knitr::kable(nhomdieutri_sl_hoatchat, format="html", 
              col.names = c("Nhom DT", "SL hoat chat", "%"))
