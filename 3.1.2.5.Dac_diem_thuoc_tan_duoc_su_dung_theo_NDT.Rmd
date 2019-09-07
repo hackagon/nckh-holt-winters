@@ -160,11 +160,54 @@ knitr::kable(nhomdieutri_hoatchat_nam_2018, format="html",
 ```{r nhomdieutri_CP_thuoc, echo=FALSE, results='hide',message=FALSE}
 nhomdieutri_cp_thuoc <- tonghop %>%
   group_by(nhomdieutri) %>%
-  summarise(xuattrongky_sl = sum(xuattrongky_sl, na.rm = TRUE)) %>%
-  arrange(desc(xuattrongky_sl)) %>%
-  mutate(xuattrongky_sl_percent = xuattrongky_sl*100/sum(xuattrongky_sl)) %>%
+  summarise(xuattrongky_thanhtien = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  arrange(desc(xuattrongky_thanhtien)) %>%
+  mutate(xuattrongky_thanhtien_percent = xuattrongky_thanhtien*100/sum(xuattrongky_thanhtien)) %>%
   top_n(5)
 ```
+
+```{r nhomdieutri_cp_thuoc_nam, echo=FALSE, message=FALSE, results='hide'}
+nhomdieutri_cp_thuoc_nam <- function(vector, namx){
+tonghop %>%
+  filter(nam == namx) %>%
+  group_by(nhomdieutri) %>%
+  summarise(xuattrongky_thanhtien = sum(xuattrongky_thanhtien, na.rm = TRUE))  %>%
+  mutate(xuattrongky_thanhtien_percent = xuattrongky_thanhtien*100/sum(xuattrongky_thanhtien)) %>%
+  filter(nhomdieutri %in% vector)
+}
+nhomdieutri_cp_thuoc_nam_2014 <- nhomdieutri_cp_thuoc_nam(c(18, 23, 7, 4, 19), 2014)
+nhomdieutri_cp_thuoc_nam_2015 <- nhomdieutri_cp_thuoc_nam(c(18, 23, 7, 4, 19), 2015)
+nhomdieutri_cp_thuoc_nam_2016 <- nhomdieutri_cp_thuoc_nam(c(18, 23, 7, 4, 19), 2016)
+nhomdieutri_cp_thuoc_nam_2017 <- nhomdieutri_cp_thuoc_nam(c(18, 23, 7, 4, 19), 2017)
+nhomdieutri_cp_thuoc_nam_2018 <- nhomdieutri_cp_thuoc_nam(c(18, 23, 7, 4, 19), 2018)
+```
+
+**Chi phi thuoc theo nhom dieu tri nam 2014**
+```{r}
+knitr::kable(nhomdieutri_cp_thuoc_nam_2014, format="html", 
+             col.names = c("Nhom DT", "Chi phi thuoc", "%"))
+```
+**Chi phi thuoc theo nhom dieu tri nam 2015**
+```{r}
+knitr::kable(nhomdieutri_cp_thuoc_nam_2015, format="html", 
+             col.names = c("Nhom DT", "Chi phi thuoc", "%"))
+```
+**Chi phi thuoc theo nhom dieu tri nam 2016**
+```{r}
+knitr::kable(nhomdieutri_cp_thuoc_nam_2016, format="html", 
+             col.names = c("Nhom DT", "Chi phi thuoc", "%"))
+```
+**Chi phi thuoc theo nhom dieu tri nam 2017**
+```{r}
+knitr::kable(nhomdieutri_cp_thuoc_nam_2017, format="html", 
+             col.names = c("Nhom DT", "Chi phi thuoc", "%"))
+```
+**Chi phi thuoc theo nhom dieu tri nam 2018**
+```{r}
+knitr::kable(nhomdieutri_cp_thuoc_nam_2018, format="html", 
+             col.names = c("Nhom DT", "Chi phi thuoc", "%"))
+```
+
 
 ##SO LUONG THUOC
 **So luong thuoc duoc su dung theo nhom dieu tri tu nam 2014 den 2018 (5 nhom dieu tri co so luong thuoc su dung cao nhat)** 
