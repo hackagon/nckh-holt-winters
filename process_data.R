@@ -39,6 +39,7 @@ tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "spiramycin_metronidazo")
 tonghop$nhomdieutri[which(str_detect(tonghop$hoatchat, "succimer") )] <- 4
 
 nhomdieutri_moi <- rep(0, nrow(tonghop))
+i<-1
 while(i <= nrow(nhomdieutri)){
   index <- which(tonghop$nhomdieutri == nhomdieutri$Nhom_loai_1[i])
   nhomdieutri_moi[index] = nhomdieutri$Nhom_loai_2[i]
@@ -49,3 +50,4 @@ tonghop$nhomdieutri_moi <- nhomdieutri_moi
 
 # export file
 write.csv(tonghop, "tonghop_processed.csv")
+

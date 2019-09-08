@@ -112,27 +112,27 @@ knitr::kable(nhomdieutri_cs_thuoc_nam_2018, format="html",
 # tonghop$hoatchat_ko_hamluong <- hoatchat_ko_hamluong
 
 nhomdieutri_sl_hoatchat <- tonghop %>%
-  group_by(nhomdieutri) %>%
-  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong)) %>%
-  arrange(desc(sl_hoatchat_ko_hamluong)) %>%
-  mutate(sl_hoatchat_ko_hamluong_percent = sl_hoatchat_ko_hamluong*100/sum(sl_hoatchat_ko_hamluong)) %>%
+  group_by(nhomdieutri_moi) %>%
+  summarise(sl_hoatchat_dvt = n_distinct(hoatchat_dvt)) %>%
+  arrange(desc(sl_hoatchat_dvt)) %>%
+  mutate(sl_hoatchat_dvt_percent = sl_hoatchat_dvt*100/sum(sl_hoatchat_dvt)) %>%
   top_n(5)
 ```
 
 ```{r nhomdieutri_cs_hoatchat_nam, echo=FALSE, message=FALSE, results='hide'}
-nhomdieutri_hoatchat_nam <- function(vector, namx){
+nhomdieutri_sl_hoatchat_nam <- function(vector, namx){
 tonghop %>%
   filter(nam == namx) %>%
-  group_by(nhomdieutri) %>%
-  summarise(sl_hoatchat_ko_hamluong = n_distinct(hoatchat_ko_hamluong))  %>%
-  mutate(sl_hoatchat_ko_hamluong_percent = sl_hoatchat_ko_hamluong*100/sum(sl_hoatchat_ko_hamluong)) %>%
-  filter(nhomdieutri %in% vector)
+  group_by(nhomdieutri_moi) %>%
+  summarise(sl_hoatchat_dvt = n_distinct(hoatchat_dvt))  %>%
+  mutate(sl_hoatchat_dvt_percent = sl_hoatchat_dvt*100/sum(sl_hoatchat_dvt)) %>%
+  filter(nhomdieutri_moi %in% vector)
 }
-nhomdieutri_hoatchat_nam_2014 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2014)
-nhomdieutri_hoatchat_nam_2015 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2015)
-nhomdieutri_hoatchat_nam_2016 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2016)
-nhomdieutri_hoatchat_nam_2017 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2017)
-nhomdieutri_hoatchat_nam_2018 <- nhomdieutri_hoatchat_nam(c(18,7,47,2,48), 2018)
+nhomdieutri_hoatchat_nam_2014 <- nhomdieutri_sl_hoatchat_nam(nhomdieutri_sl_hoatchat$nhomdieutri_moi, 2014)
+nhomdieutri_hoatchat_nam_2015 <- nhomdieutri_sl_hoatchat_nam(nhomdieutri_sl_hoatchat$nhomdieutri_moi, 2015)
+nhomdieutri_hoatchat_nam_2016 <- nhomdieutri_sl_hoatchat_nam(nhomdieutri_sl_hoatchat$nhomdieutri_moi, 2016)
+nhomdieutri_hoatchat_nam_2017 <- nhomdieutri_sl_hoatchat_nam(nhomdieutri_sl_hoatchat$nhomdieutri_moi, 2017)
+nhomdieutri_hoatchat_nam_2018 <- nhomdieutri_sl_hoatchat_nam(nhomdieutri_sl_hoatchat$nhomdieutri_moi, 2018)
   
 ```
 
