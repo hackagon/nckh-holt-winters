@@ -39,10 +39,10 @@ Chi phi
 Biet duoc
 </td>
 <td style="text-align:right;">
-119
+107
 </td>
 <td style="text-align:right;">
-0.2515856
+0.2420814
 </td>
 <td style="text-align:right;">
 5456878
@@ -62,10 +62,10 @@ Biet duoc
 Generic
 </td>
 <td style="text-align:right;">
-354
+335
 </td>
 <td style="text-align:right;">
-0.7484144
+0.7579186
 </td>
 <td style="text-align:right;">
 17328502
