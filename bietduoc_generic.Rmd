@@ -125,3 +125,20 @@ generic_nam$soluong <- c(
 knitr::kable(generic_nam, format="html", 
              col.names = c("nam", "co so", "chi phi", "so luong"))
 ```
+
+
+### GHI CHU: mot hoat chat co the co nhieu ten thuong mai nen 335 + 107 > 409 (tong hoatchat_dvt) la binh thuong
+
+
+```{r unit test}
+# unique_hoatchat_dvt <- unique(tonghop$hoatchat_dvt)
+# i <- 1
+# while(i <= length(unique_hoatchat_dvt)){
+#   index <- which(tonghop$hoatchat_dvt == unique_hoatchat_dvt[i])
+#   unique <- unique(tonghop$nhomBD[index])
+#   if(length(unique) > 1){
+#   print(i)
+#   }
+#   i <- i + 1
+# }
+```

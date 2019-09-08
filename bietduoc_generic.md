@@ -276,3 +276,17 @@ so luong
 </tr>
 </tbody>
 </table>
+### GHI CHU: mot hoat chat co the co nhieu ten thuong mai nen 335 + 107 &gt; 409 (tong hoatchat\_dvt) la binh thuong
+
+``` r
+# unique_hoatchat_dvt <- unique(tonghop$hoatchat_dvt)
+# i <- 1
+# while(i <= length(unique_hoatchat_dvt)){
+#   index <- which(tonghop$hoatchat_dvt == unique_hoatchat_dvt[i])
+#   unique <- unique(tonghop$nhomBD[index])
+#   if(length(unique) > 1){
+#   print(i)
+#   }
+#   i <- i + 1
+# }
+```
