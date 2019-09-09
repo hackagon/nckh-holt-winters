@@ -1,51 +1,51 @@
 Nhom_loai_1,TenNhom_loai_1,Nhom_loai_2
-1,"Thuốc gây tê, gây mê",GayTeGayMe
-2,"Thuốc giảm đau, hạ sốt; chống viêm không steroid; thuốc điều trị gút và các bệnh xương khớp",GiamDauHaSotKhangViem
-3,Thuốc chống dị ứng và dùng trong các trường hợp quá mẫn,ChongDiUng
-4,Thuốc giải độc và các thuốc dùng trong các trường hợp ngộ độc,GiaiDoc
-5,"Thuốc chống co giật, chống động kinh",TacDongThanKinh
-6,"Thuốc điều trị giun, sán",Khac
-7,Thuốc chống nhiễm khuẩn nhóm beta-lactam,ChongNhiemKhuan
-8,Thuốc chống nhiễm khuẩn nhóm aminoglycosid,ChongNhiemKhuan
-9,Thuốc chống nhiễm khuẩn nhóm lincosamid,ChongNhiemKhuan
-10,Thuốc chống nhiễm khuẩn nhóm macrolid,ChongNhiemKhuan
-11,Thuốc chống nhiễm khuẩn nhóm quinolon,ChongNhiemKhuan
-12,Thuốc chống nhiễm khuẩn nhóm sulfamid,ChongNhiemKhuan
-13,Thuốc chống nhiễm khuẩn nhóm tetracyclin,ChongNhiemKhuan
-14,Thuốc chống nhiễm khuẩn khác,ChongNhiemKhuan
-15,Thuốc chống vi rút,Khac
-16,Thuốc chống nấm,Khac
-17,Thuốc điều trị bệnh do amip,ChongNhiemKhuan
-18,Thuốc điều trị ung thư ,UngThu
-19,Thuốc điều hòa miễn dịch,MienDich
-20,Thuốc chống thiếu máu,TacDongVoiMau
-21,Thuốc tác dụng lên quá trình đông máu,TacDongVoiMau
-22,Máu và chế phẩm máu,TacDongVoiMau
-23,Thuốc tác động đối với máu khác,TacDongVoiMau
-24,Thuốc chống đau thắt ngực,TimMach
-25,Thuốc điều trị tăng huyết áp,TimMach
-26,Thuốc điều trị suy tim,TimMach
-27,Thuốc chống huyết khối,TimMach
-28,Thuốc hạ lipid máu,HaLipid
-29,Thuốc điều trị bệnh da liễu,DaLieu
-30,Thuốc tẩy trùng và sát khuẩn,ChongNhiemKhuan
-31,Thuốc lợi tiểu,LoiTieu
-32,Thuốc kháng acid và các thuốc chống loét khác tác dụng trên đường tiêu hóa,TieuHoa
-33,Thuốc chống nôn,TieuHoa
-34,Thuốc chống co thắt,TieuHoa
-35,"Thuốc tẩy, nhuận tràng",TieuHoa
-36,Thuốc điều trị tiêu chảy,TieuHoa
-37,Thuốc điều trị giãn tĩnh mạch,TimMach
-38,Thuốc đường tiêu hóa khác,TieuHoa
-39,Hormone thượng thận và những chất tổng hợp thay thế,NoiTiet
-40,"Các chế phẩm androgen, estrogen và progesteron",NoiTiet
-41,Insulin và nhóm thuốc hạ đường huyết,TieuDuong
-42,Huyết thanh và globulin miễn dịch,MienDich
-43,"Thuốc giãn cơ, thuốc giải giãn cơ",Khac
-44,Thuốc an thần,TacDongThanKinh
-45,Thuốc chữa hen và bệnh phổi tắc nghẽn mãn tính,HoHap
-46,Thuốc chữa ho,HoHap
-47,"Dung dịch điều chỉnh nước điện giải, cân bằng acid base và các dung dịch tiêm truyền khác",DieuHoaDienGiai
-48,Khoáng chất và vitamin,KhoangChatVitamin
-49,Các thuốc chưa có trong danh mục thông tư 30,Khac
-50,Thuốc bảo vệ gan,Khac
+1,"Thuốc gây tê, gây mê","Gây tê, gây mê"
+2,"Thuốc giảm đau, hạ sốt; chống viêm không steroid; thuốc điều trị gút và các bệnh xương khớp","Giảm đau, hạ sốt, kháng viêm"
+3,Thuốc chống dị ứng và dùng trong các trường hợp quá mẫn,Chống dị ứng
+4,Thuốc giải độc và các thuốc dùng trong các trường hợp ngộ độc,Giải độc
+5,"Thuốc chống co giật, chống động kinh",Tác động thần kinh
+6,"Thuốc điều trị giun, sán",Khác
+7,Thuốc chống nhiễm khuẩn nhóm beta-lactam,Chống nhiễm khuẩn
+8,Thuốc chống nhiễm khuẩn nhóm aminoglycosid,Chống nhiễm khuẩn
+9,Thuốc chống nhiễm khuẩn nhóm lincosamid,Chống nhiễm khuẩn
+10,Thuốc chống nhiễm khuẩn nhóm macrolid,Chống nhiễm khuẩn
+11,Thuốc chống nhiễm khuẩn nhóm quinolon,Chống nhiễm khuẩn
+12,Thuốc chống nhiễm khuẩn nhóm sulfamid,Chống nhiễm khuẩn
+13,Thuốc chống nhiễm khuẩn nhóm tetracyclin,Chống nhiễm khuẩn
+14,Thuốc chống nhiễm khuẩn khác,Chống nhiễm khuẩn
+15,Thuốc chống vi rút,Khác
+16,Thuốc chống nấm,Khác
+17,Thuốc điều trị bệnh do amip,Chống nhiễm khuẩn
+18,Thuốc điều trị ung thư ,Ung thư
+19,Thuốc điều hòa miễn dịch,Miễn dịch
+20,Thuốc chống thiếu máu,Tác động với máu
+21,Thuốc tác dụng lên quá trình đông máu,Tác động với máu
+22,Máu và chế phẩm máu,Tác động với máu
+23,Thuốc tác động đối với máu khác,Tác động với máu
+24,Thuốc chống đau thắt ngực,Tim mạch
+25,Thuốc điều trị tăng huyết áp,Tim mạch
+26,Thuốc điều trị suy tim,Tim mạch
+27,Thuốc chống huyết khối,Tim mạch
+28,Thuốc hạ lipid máu,Hạ lipid
+29,Thuốc điều trị bệnh da liễu,Khác
+30,Thuốc tẩy trùng và sát khuẩn,Chống nhiễm khuẩn
+31,Thuốc lợi tiểu,Lợi tiểu
+32,Thuốc kháng acid và các thuốc chống loét khác tác dụng trên đường tiêu hóa,Tiêu hóa
+33,Thuốc chống nôn,Tiêu hóa
+34,Thuốc chống co thắt,Tiêu hóa
+35,"Thuốc tẩy, nhuận tràng",Tiêu hóa
+36,Thuốc điều trị tiêu chảy,Tiêu hóa
+37,Thuốc điều trị giãn tĩnh mạch,Tim mạch
+38,Thuốc đường tiêu hóa khác,Tiêu hóa
+39,Hormone thượng thận và những chất tổng hợp thay thế,Nội tiết
+40,"Các chế phẩm androgen, estrogen và progesteron",Nội tiết
+41,Insulin và nhóm thuốc hạ đường huyết,Tiểu đường
+42,Huyết thanh và globulin miễn dịch,Miễn dịch
+43,"Thuốc giãn cơ, thuốc giải giãn cơ",Khác
+44,Thuốc an thần,Tác động thần kinh
+45,Thuốc chữa hen và bệnh phổi tắc nghẽn mãn tính,Khác
+46,Thuốc chữa ho,Khác
+47,"Dung dịch điều chỉnh nước điện giải, cân bằng acid base và các dung dịch tiêm truyền khác",Điều hòa điện giải
+48,Khoáng chất và vitamin,"Khoáng chất, vitamin"
+49,Các thuốc chưa có trong danh mục thông tư 30,Khác
+50,Thuốc bảo vệ gan,Khác
