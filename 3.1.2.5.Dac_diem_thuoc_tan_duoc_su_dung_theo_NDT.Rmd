@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(stringr)
 library(plotly)
+library(ggplot2)
 ```
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
@@ -230,44 +231,38 @@ knitr::kable(nhomdieutri_cp_thuoc_nam_2018, format="html",
              col.names = c("Nhom DT", "Chi phi thuoc", "%"))
 ```
 
-##SO SANH CO SO THUOC, SO LUONG HJOAT CHAT, CHI PHI THUOC
+##SO SANH CO SO THUOC, SO LUONG HOAT CHAT, CHI PHI THUOC
 ```{r}
 
-# nhomdieutri_cs_thuoc <- tonghop %>%
-#   group_by(nhomdieutri_moi) %>%
-#   summarise(cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE)) %>%
-#   mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
-#   arrange(desc(cs_thuoc)) %>%
-#   top_n(10)
-# 
-# nhomdieutri_cp_thuoc <- tonghop %>%
-#   group_by(nhomdieutri_moi) %>%
-#   summarise(cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
-#   mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
-#   arrange(desc(cp_thuoc)) %>%
-#   top_n(10)
-# 
-# plot_ly(
-#     type = 'scatterpolar',
-#     fill = 'toself'
-#   ) %>%
-#   add_trace(
-#     r = nhomdieutri_cs_thuoc$cs_thuoc_percent,
-#     theta = nhomdieutri_cs_thuoc$nhomdieutri_moi,
-#     name = 'Co so'
-#   ) %>%
-#   add_trace(
-#     r = nhomdieutri_cp_thuoc$cp_thuoc_percent,
-#     theta = nhomdieutri_cp_thuoc$nhomdieutri_moi,
-#     name = 'Chi phi'
-#   ) %>%
-#   layout(
-#     polar = list(
-#       radialaxis = list(
-#         visible = T,
-#         range = c(0,60)
-#       )
-#     )
-#   )
+nhomdieutri_cs_thuoc <- tonghop %>%
+  group_by(nhomdieutri_moi) %>%
+  summarise(cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE)) %>%
+  mutate(percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+  mutate(loai = rep("Cơ số", 19))
 
+nhomdieutri_cp_thuoc <- tonghop %>%
+  group_by(nhomdieutri_moi) %>%
+  summarise(cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  mutate(percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+  mutate(loai = rep("Chi phí", 19))
+
+nhomdieutri_sl_hoatchat <- tonghop %>%
+  group_by(nhomdieutri_moi) %>%
+  summarise(sl_hoatchat_dvt = n_distinct(hoatchat_dvt)) %>%
+  mutate(percent = sl_hoatchat_dvt*100/sum(sl_hoatchat_dvt)) %>%
+  mutate(loai = rep("Số lượng hoạt chất", 19))
+  
+df_plot <- rbind(
+  nhomdieutri_cs_thuoc[,-2],
+  nhomdieutri_cp_thuoc[,-2],
+  nhomdieutri_sl_hoatchat[,-2]
+  ) %>%
+  arrange(nhomdieutri_moi)
+
+ggplot(df_plot, aes(fill=loai, y=percent, x=nhomdieutri_moi)) + 
+    geom_bar(position="dodge", stat="identity") +
+    coord_flip() +
+    xlab("Nhóm điều trị") +
+    ylab("Phần trăm (%)") + 
+    scale_fill_discrete(name = "Loại")
 ```
