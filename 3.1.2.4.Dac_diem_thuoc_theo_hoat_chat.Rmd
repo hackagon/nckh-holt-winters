@@ -14,13 +14,19 @@ library(ggplot2)
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
 tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+
+number_end <- str_locate(tonghop$hoatchat, str_extract(tonghop$hoatchat, "_\\d"))[,1]
+number_end[which(is.na(number_end))] <- -1
+number_start <- rep(1, length(number_end))
+hoatchat_ko_hamluong <- tonghop$hoatchat %>% str_sub(number_start, number_end-1)
+tonghop$hoatchat_ko_hamluong <- hoatchat_ko_hamluong
 ```
 
 ## So luong hoat chat su dung tu nam 2011 den nam 2017
 
 ```{r dac_diem_sl_hoat_chat, echo=FALSE, results='hide',message=FALSE}
 sl_thuoc_cung_hoat_chat <- tonghop %>%
-  group_by(hoatchat_dvt) %>%
+  group_by(hoatchat_ko_hamluong) %>%
   summarise(sl_thuoc_cung_hoat_chat = n_distinct(ThuongMai)) %>%
   mutate(value = 1)
 ```
