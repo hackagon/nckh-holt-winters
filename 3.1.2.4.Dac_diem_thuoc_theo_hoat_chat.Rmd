@@ -70,3 +70,29 @@ kable(hoatchat_cs, format="html",
 
 
 ## Chi phi hoat chat su dung tu nam 2014 - 2018
+```{r hoatchat_cp_nhieu, echo=FALSE, results='hide',message=FALSE}
+hoatchat_cp_2014_2018 <- tonghop %>%
+  group_by(hoatchat_ko_hamluong) %>%
+  summarise(cp_thuoc_2014_2018 = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  mutate(cp_thuoc_percent_2014_2018 = cp_thuoc_2014_2018*100/sum(cp_thuoc_2014_2018)) %>%
+  top_n(20) %>%
+  arrange(desc(cp_thuoc_2014_2018)) %>%
+  mutate(index = rep(1:20))
+
+hoatchat_cp_2018 <- tonghop %>%
+  filter(nam == 2018) %>%
+  group_by(hoatchat_ko_hamluong) %>%
+  summarise(cp_thuoc_2018 = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  mutate(cp_thuoc_percent_2018 = cp_thuoc_2018*100/sum(cp_thuoc_2018)) %>%
+  filter(hoatchat_ko_hamluong %in% hoatchat_cp_2014_2018$hoatchat_ko_hamluong)
+
+hoatchat_cp <- merge(hoatchat_cp_2014_2018, hoatchat_cp_2018, by="hoatchat_ko_hamluong", all.x = TRUE) %>% 
+  arrange(index) %>%
+  select(-c(index))
+```
+
+```{r}
+kable(hoatchat_cp, format="html", 
+      col.names = c("Hoat chat", "Chi phi thuoc (2014-2018)", "% Chi phi (2014-2018)",
+                    "Chi phi thuoc (2018)", "% Chi phi (2018)"))
+```
