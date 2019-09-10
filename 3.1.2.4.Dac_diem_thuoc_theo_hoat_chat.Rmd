@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(stringr)
 library(ggplot2)
+library(knitr)
 ```
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
@@ -62,9 +63,9 @@ hoatchat_cs <- merge(hoatchat_cs_2014_2018, hoatchat_cs_2018, by="hoatchat_ko_ha
 ```
 
 ```{r}
-knitr::kable(hoatchat_cs, format="html", 
-             col.names = c("Hoat chat", "Co so thuoc (2014-2018)", "% Co so (2014-2018)",
-                           "Co so thuoc (2018)", "% Co so (2018)"))
+kable(hoatchat_cs, format="html", 
+      col.names = c("Hoat chat", "Co so thuoc (2014-2018)", "% Co so (2014-2018)",
+                    "Co so thuoc (2018)", "% Co so (2018)"))
 ```
 
 
