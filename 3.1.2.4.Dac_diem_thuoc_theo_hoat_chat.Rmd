@@ -1,5 +1,5 @@
 ---
-title: "3.1.2.4. Dac duen cua thuoc su dung theo hoat chat"
+title: "3.1.2.4. Dac diem cua thuoc su dung theo hoat chat"
 output:
   md_document:
     variant: markdown_github
