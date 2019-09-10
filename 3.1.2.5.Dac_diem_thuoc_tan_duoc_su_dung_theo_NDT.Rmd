@@ -40,6 +40,8 @@ tonghop$ThuongMai <- tonghop$ThuongMai %>%
   gsub(pattern = " ", replacement = "_") %>%
   tolower()
 tonghop$ThuongMai[923] <- "aminoplasmal_b.braun_5%_e_250"
+
+write.csv(tonghop, "tonghop_chuan_t9.csv")
 ```
 
 ##CO SO THUOC
