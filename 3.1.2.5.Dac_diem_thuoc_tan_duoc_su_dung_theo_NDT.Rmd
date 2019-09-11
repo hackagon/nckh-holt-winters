@@ -90,8 +90,9 @@ knitr::kable(nhomdieutri_cs_thuoc_nam_2018, format="html",
 nhomdieutri_sl_hoatchat <- tonghop %>%
   group_by(nhomdieutri_moi) %>%
   summarise(sl_hoatchat_dvt = n_distinct(hoatchat_dvt)) %>%
-  arrange(desc(sl_hoatchat_dvt)) %>%
   mutate(sl_hoatchat_dvt_percent = sl_hoatchat_dvt*100/sum(sl_hoatchat_dvt)) %>%
+  filter(!nhomdieutri_moi %in% c("Khác")) %>%
+  arrange(desc(sl_hoatchat_dvt)) %>%
   top_n(5)
 ```
 
