@@ -33,13 +33,13 @@ phanloai_cs_thuoc <- tonghop %>%
   mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
   top_n(20)
 ```
-```{r}
+```{r phanloai_cs_thuoc_table}
 knitr::kable(phanloai_cs_thuoc, format="html", 
              col.names = c("Hoat chat", "Co so thuoc", "% Co so thuoc", "% tich luy"))
 ```
 
 ## BANG: Phan loai hoat chat dua theo co so su dung nam 2018
-```{r}
+```{r phanloai_cs_thuoc_ABC, echo=FALSE, results='hide',message=FALSE}
 phanloai_cs_thuoc <- tonghop %>%
   filter(nam == 2018) %>%
   filter(xuattrongky_sl != 0) %>%
@@ -56,7 +56,7 @@ phanloai_cs_thuoc <- tonghop %>%
   mutate(phanloai_cs = c("A", "B", "C"))
 ```
 
-```{r}
+```{r phanloai_cs_thuoc_ABC_table}
 knitr::kable(phanloai_cs_thuoc, format="html", 
              col.names = c("Phan loai", "Co so thuoc", "% Co so thuoc", "% tich luy"))
 ```
