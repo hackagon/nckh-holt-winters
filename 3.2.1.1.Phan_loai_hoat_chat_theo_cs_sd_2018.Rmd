@@ -22,8 +22,8 @@ tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv"
 
 ## BANG PHUC LUC: Phan loai hoat chat dua theo co so su dung nam 2018
 ### (Chi in 20 rows tuong trung, khi lam phu luc se xuat ra day dau)
-```{r}
-nhomdieutri_cs_thuoc <- tonghop %>%
+```{r phanloai_cs_thuoc, echo=FALSE, results='hide',message=FALSE}
+phanloai_cs_thuoc <- tonghop %>%
   filter(nam == 2018) %>%
   filter(xuattrongky_sl != 0) %>%
   group_by(hoatchat_dvt) %>%
@@ -33,10 +33,14 @@ nhomdieutri_cs_thuoc <- tonghop %>%
   mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
   top_n(20)
 ```
+```{r}
+knitr::kable(phanloai_cs_thuoc, format="html", 
+             col.names = c("Hoat chat", "Co so thuoc", "% Co so thuoc", "% tich luy"))
+```
 
 ## BANG: Phan loai hoat chat dua theo co so su dung nam 2018
 ```{r}
-nhomdieutri_cs_thuoc <- tonghop %>%
+phanloai_cs_thuoc <- tonghop %>%
   filter(nam == 2018) %>%
   filter(xuattrongky_sl != 0) %>%
   group_by(hoatchat_dvt) %>%
@@ -50,4 +54,9 @@ nhomdieutri_cs_thuoc <- tonghop %>%
   mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
   mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
   mutate(phanloai_cs = c("A", "B", "C"))
+```
+
+```{r}
+knitr::kable(phanloai_cs_thuoc, format="html", 
+             col.names = c("Phan loai", "Co so thuoc", "% Co so thuoc", "% tich luy"))
 ```
