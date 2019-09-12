@@ -21,7 +21,7 @@ tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv"
 # Phan loai hoat chat theo chi phi su dung nam 2018
 
 ## BANG PHUC LUC: Phan loai hoat chat dua theo chi phi su dung nam 2018
-### (Chi in 20 rows tuong trung, khi lam phu luc se xuat ra day dau)
+#### (Chi in 20 rows tuong trung, khi lam phu luc se xuat ra day dau)
 #### Co 1 so row co chi phi su dung = 0 ==> loai bo
 ```{r phanloai_cp_thuoc, echo=FALSE, results='hide',message=FALSE}
 phanloai_cp_thuoc <- tonghop %>%

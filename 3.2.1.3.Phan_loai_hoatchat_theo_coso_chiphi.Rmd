@@ -1,0 +1,59 @@
+---
+title: "3.2.1.3. Phan loai hoat chat theo co so va chi phi nam 2018"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+```
+
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
+tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+```
+
+```{r phanloai_cp_thuoc, echo=FALSE, results='hide',message=FALSE}
+phanloai_cp_thuoc <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_thanhtien != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  arrange(desc(cp_thuoc)) %>%
+  mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+  mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
+  mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 85, "B", "C"))) %>%
+  arrange(hoatchat_dvt)
+
+phanloai_cs_thuoc <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_sl != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE)) %>%
+  arrange(desc(cs_thuoc)) %>%
+  mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+  mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
+  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 85, "B", "C"))) %>%
+  arrange(hoatchat_dvt)
+
+phanloai_cs_cp <- data.frame(phanloai_cp_thuoc, phanloai_cs_thuoc) %>%
+  mutate(phanloai = str_c(phanloai_cs, phanloai_cp, sep = ""))
+
+phanloai_cs_cp$phanloai[which(phanloai_cs_cp$phanloai == "BA")] <- "AB"
+phanloai_cs_cp$phanloai[which(phanloai_cs_cp$phanloai == "CB")] <- "BC"
+phanloai_cs_cp$phanloai[which(phanloai_cs_cp$phanloai == "CA")] <- "AC"
+
+phanloai_cs_cp <- phanloai_cs_cp %>%
+  group_by(phanloai) %>%
+  summarise(sl_hoatchat = n_distinct(hoatchat_dvt)) %>%
+  mutate(sl_hoatchat_percent = sl_hoatchat*100/sum(sl_hoatchat))
+```
+
+```{r phanloai_cs_cp_table}
+knitr::kable(phanloai_cs_cp, format="html", 
+             col.names = c("Phan loai", "SL hoat chat", "% SL hoat chat"))
+```
