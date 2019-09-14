@@ -1,0 +1,47 @@
+---
+title: "3.2.1.4. Mo ta dac diem hoat su dung nhieu trongnam 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+```
+
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
+tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+```
+
+```{r phanloai, echo=FALSE, results='hide',message=FALSE}
+phanloai <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_thanhtien != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(
+    nhomdieutri = head(nhomdieutri_moi, 1),
+    cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE),
+    cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE),
+    sl_thuoc = n_distinct(ThuongMai)) %>%
+    arrange(desc(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
+    mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    arrange(desc(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
+    mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    filter(phanloai_cs != "C" | phanloai_cp != "C") %>%
+  group_by(nhomdieutri) %>%
+  arrange(
+    nhomdieutri,
+    desc(cs_thuoc_percent)) %>%
+  select(c("hoatchat_dvt", "nhomdieutri", "sl_thuoc", "cs_thuoc", "cs_thuoc_percent", "cp_thuoc", "cp_thuoc_percent"))
+```
+
+```{r phanloai_table}
+knitr::kable(phanloai, format="html", 
+             col.names = c("Hoat chat", "Nhom dieu tri", "SL thuoc", "CS thuoc", "% CS thuoc", "CP thuoc", "% CP thuoc"))
+```
