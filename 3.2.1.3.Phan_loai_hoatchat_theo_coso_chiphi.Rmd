@@ -26,7 +26,7 @@ phanloai_cp_thuoc <- tonghop %>%
   arrange(desc(cp_thuoc)) %>%
   mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
   mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
-  mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 85, "B", "C"))) %>%
+  mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "C"))) %>%
   arrange(hoatchat_dvt)
 
 phanloai_cs_thuoc <- tonghop %>%
@@ -37,7 +37,7 @@ phanloai_cs_thuoc <- tonghop %>%
   arrange(desc(cs_thuoc)) %>%
   mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
   mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
-  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 85, "B", "C"))) %>%
+  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
   arrange(hoatchat_dvt)
 
 phanloai_cs_cp <- data.frame(phanloai_cp_thuoc, phanloai_cs_thuoc) %>%

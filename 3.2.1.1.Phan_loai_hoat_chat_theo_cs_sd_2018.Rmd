@@ -49,7 +49,7 @@ phanloai_cs_thuoc <- tonghop %>%
   arrange(desc(cs_thuoc)) %>%
   mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
   mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
-  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 85, "B", "c"))) %>%
+  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "c"))) %>%
   group_by(phanloai_cs) %>%
   summarise(cs_thuoc = sum(cs_thuoc)) %>%
   mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
