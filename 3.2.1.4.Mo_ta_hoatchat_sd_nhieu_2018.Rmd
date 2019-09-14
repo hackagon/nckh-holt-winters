@@ -1,6 +1,8 @@
 ---
 title: "3.2.1.4. Mo ta dac diem hoat su dung nhieu trongnam 2018"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 ```{r setup, include=FALSE}
