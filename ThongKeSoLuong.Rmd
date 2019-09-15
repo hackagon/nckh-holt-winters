@@ -17,7 +17,7 @@ library(ggplot2)
 tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
 ```
 
-# 1. Giai doan 2014-2018
+## 1. Giai doan 2014-2018
 ### 1.1 Tong CO SO THUOC su dung
 ```{r echo=FALSE, message=FALSE}
 tonghop %>% 
@@ -53,7 +53,7 @@ tonghop %>%
   n_distinct()
 ```
 
-# 2. Nam 2018
+## 2. Nam 2018
 ### 2.1. Tong CO SO THUOC su dung
 ```{r echo=FALSE, message=FALSE}
 tonghop %>% 
