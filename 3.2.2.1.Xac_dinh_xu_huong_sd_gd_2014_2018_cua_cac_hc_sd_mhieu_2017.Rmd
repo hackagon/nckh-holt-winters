@@ -4,6 +4,8 @@ title: 3.2.2.1. Xac dinh xu huong su dung giai doan 2014-2018 cua cac hoat chat 
 output:
   md_document:
     variant: markdown_github
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -12,5 +14,81 @@ library(dplyr)
 library(stringr)
 library(plotly)
 library(ggplot2)
+library(scales)
 ```
 
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
+tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+```
+
+```{r phanloai, echo=FALSE, results='hide',message=FALSE}
+phanloai <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_thanhtien != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(
+    nhomdieutri = head(nhomdieutri_moi, 1),
+    cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE),
+    cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE),
+    sl_thuoc = n_distinct(ThuongMai)) %>%
+    arrange(desc(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
+    mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    arrange(desc(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
+    mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    filter(phanloai_cs != "C" | phanloai_cp != "C") %>%
+    mutate(phanloai = str_c(phanloai_cs, phanloai_cp, sep = "")) %>%
+  group_by(nhomdieutri) %>%
+  arrange(
+    nhomdieutri,
+    desc(cs_thuoc_percent)) %>%
+  select(c("hoatchat_dvt", "nhomdieutri", "sl_thuoc", "cs_thuoc", "cs_thuoc_percent", "cp_thuoc", "cp_thuoc_percent", "phanloai"))
+
+phanloai$phanloai[which(phanloai$phanloai  == "CA")] <- "AC"
+phanloai$phanloai[which(phanloai$phanloai  == "CB")] <- "BC"
+phanloai$phanloai[which(phanloai$phanloai  == "BA")] <- "AB"
+
+phanloai %>%
+  arrange(phanloai)
+```
+
+```{r}
+lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
+  tonghop %>%
+    filter(hoatchat_dvt == !!hoatchat) %>%
+    select(c("xuattrongky_sl", "nam", "thang")) %>%
+    mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
+    group_by(date) %>%
+    summarise(coso = sum(xuattrongky_sl)) %>%
+    arrange(date)  
+}
+
+ve_bieu_do_hc_theo_thoi_gian <- function(data){
+data %>%
+  ggplot(aes(x=date, y=coso)) +
+    geom_line() +
+    geom_point() +
+    xlab("Thời gian") + 
+    scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
+    ylab("Cơ số sử dụng") + 
+    theme_minimal()
+}
+```
+
+```{r}
+lay_co_so_thuoc_theo_thoi_gian("deferasirox_250_vien") %>%
+  ve_bieu_do_hc_theo_thoi_gian()
+
+lay_co_so_thuoc_theo_thoi_gian("imatinib_100_vien") %>%
+  ve_bieu_do_hc_theo_thoi_gian()
+```
+
+
+## Nhom AA
+```{r}
+lay_co_so_thuoc_theo_thoi_gian("deferasirox_250_vien")
+lay_co_so_thuoc_theo_thoi_gian("imatinib_100_vien")
+```
