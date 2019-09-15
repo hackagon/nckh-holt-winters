@@ -45,13 +45,14 @@ phanloai_cp_thuoc <- tonghop %>%
   filter(nam == 2018) %>%
   filter(xuattrongky_thanhtien != 0) %>%
   group_by(hoatchat_dvt) %>%
-  summarise(cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE)) %>%
+  summarise(cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE),
+            sl_hoatchat = n_distinct(hoatchat_dvt)) %>%
   arrange(desc(cp_thuoc)) %>%
   mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
   mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
   mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "c"))) %>%
   group_by(phanloai_cp) %>%
-  summarise(cp_thuoc = sum(cp_thuoc)) %>%
+  summarise(sl_hoatchat = sum(sl_hoatchat), cp_thuoc = sum(cp_thuoc)) %>%
   mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
   mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
   mutate(phanloai_cp = c("A", "B", "C"))
@@ -59,5 +60,5 @@ phanloai_cp_thuoc <- tonghop %>%
 
 ```{r phanloai_cp_thuoc_ABC_table}
 knitr::kable(phanloai_cp_thuoc, format="html", 
-             col.names = c("Phan loai", "Co so thuoc", "% Co so thuoc", "% tich luy"))
+             col.names = c("Phan loai", "SL hoat chat", "Co so thuoc", "% Co so thuoc", "% tich luy"))
 ```
