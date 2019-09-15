@@ -36,6 +36,7 @@ phanloai <- tonghop %>%
     mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
     mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
     filter(phanloai_cs != "C" | phanloai_cp != "C") %>%
+    mutate(phanloai = str_c(phanloai_cs, phanloai_cp, sep = "")) %>%
   group_by(nhomdieutri) %>%
   arrange(
     nhomdieutri,

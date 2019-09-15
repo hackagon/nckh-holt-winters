@@ -1,0 +1,96 @@
+---
+title: "Thong ke so luong"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+```
+
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
+tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+```
+
+## 1. Giai doan 2014-2018
+### 1.1 Tong CO SO THUOC su dung
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  select(c("xuattrongky_sl")) %>%
+  sum()
+```
+
+### 1.2. Tong CHI PHI THUOC
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  select(c("xuattrongky_thanhtien")) %>%
+  sum()
+```
+
+### 1.3. SO LUONG hoatchat_dvt
+#### 1.3.1 SO LUONG hoatchat_dvt (CO SO co the khac 0)
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  select(c("hoatchat_dvt")) %>%
+  n_distinct()
+```
+#### 1.3.2 SO LUONG hoatchat_dvt (CO SO khac 0)
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  select(c("hoatchat_dvt")) %>%
+  n_distinct()
+```
+
+### 1.4. SO LUONG ThuongMai
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  select(c("ThuongMai")) %>%
+  n_distinct()
+```
+
+## 2. Nam 2018
+### 2.1. Tong CO SO THUOC su dung
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  filter(nam == 2018) %>%
+  select(c("xuattrongky_sl")) %>%
+  sum()
+```
+
+### 2.2. Tong CHI PHI THUOC
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  filter(nam == 2018) %>%
+  select(c("xuattrongky_thanhtien")) %>%
+  sum()
+```
+
+### 2.3. SO LUONG hoatchat_dvt
+#### 2.3.1 SO LUONG hoatchat_dvt (CO SO co the khac 0)
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  filter(nam == 2018) %>%
+  select(c("hoatchat_dvt")) %>%
+  n_distinct()
+```
+#### 2.3.2 SO LUONG hoatchat_dvt (CO SO khac 0)
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  filter(nam == 2018) %>%
+  filter(xuattrongky_sl != 0) %>%
+  select(c("hoatchat_dvt")) %>%
+  n_distinct()
+```
+
+### 2.4. SO LUONG ThuongMai
+```{r echo=FALSE, message=FALSE}
+tonghop %>% 
+  filter(nam == 2018) %>%
+  select(c("ThuongMai")) %>%
+  n_distinct()
+```
