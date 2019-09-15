@@ -1,0 +1,16 @@
+---
+title: 3.2.2.1. Xac dinh xu huong su dung giai doan 2014-2018 cua cac hoat chat duoc
+  su dung nhieu trong nam 2017
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+```
+
