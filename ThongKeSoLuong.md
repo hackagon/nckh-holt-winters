@@ -23,6 +23,10 @@
 
     ## [1] 727
 
+### 1.5. SOLUONG hoatchat\_dvt\_kohamluong
+
+    ## [1] 272
+
 2. Nam 2018
 -----------
 
@@ -47,3 +51,7 @@
 ### 2.4. SO LUONG ThuongMai
 
     ## [1] 380
+
+### 2.5. SOLUONG hoatchat\_dvt\_kohamluong
+
+    ## [1] 194
