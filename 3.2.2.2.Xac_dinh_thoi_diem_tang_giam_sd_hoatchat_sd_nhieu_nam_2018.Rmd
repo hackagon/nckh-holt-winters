@@ -57,6 +57,7 @@ phanloai %>%
 lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
   tonghop %>%
     filter(hoatchat_dvt == !!hoatchat) %>%
+    filter(nam == 2018) %>%
     select(c("xuattrongky_sl", "nam", "thang")) %>%
     mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
     group_by(date) %>%
@@ -114,7 +115,7 @@ bieudo_coso_phanloai("BC")
 vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai != "CC")]
 df <- data.frame()
 i <- 1
-while(i <= 27){
+while(i <= length(vt_hoatchat)){
   df_temp <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i])
   names(df_temp)[2] <- vt_hoatchat[i]
   if(nrow(df) == 0){

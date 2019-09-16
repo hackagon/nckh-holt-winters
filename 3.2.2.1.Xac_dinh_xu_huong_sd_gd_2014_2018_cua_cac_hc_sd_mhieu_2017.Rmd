@@ -1,6 +1,6 @@
 ---
 title: 3.2.2.1. Xac dinh xu huong su dung giai doan 2014-2018 cua cac hoat chat duoc
-  su dung nhieu trong nam 2017
+  su dung nhieu trong nam 2018
 output:
   md_document:
     variant: markdown_github
@@ -57,7 +57,6 @@ phanloai %>%
 lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
   tonghop %>%
     filter(hoatchat_dvt == !!hoatchat) %>%
-    filter(nam == 2018) %>%
     select(c("xuattrongky_sl", "nam", "thang")) %>%
     mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
     group_by(date) %>%
