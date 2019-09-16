@@ -55,7 +55,7 @@ phanloai %>%
   arrange(phanloai)
 ```
 
-```{r utils_function}
+```{r utils_function, echo=FALSE, results='hide',message=FALSE}
 lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
   tonghop %>%
     filter(hoatchat_dvt == !!hoatchat) %>%
@@ -100,6 +100,8 @@ bieudo_coso_phanloai <- function(pl){
 }
 ```
 
+### Bieu do (dua vao bai viet)
+
 ```{r bieudo}
 bieudo_coso_phanloai("AA")
 bieudo_coso_phanloai("AB")
@@ -108,19 +110,22 @@ bieudo_coso_phanloai("BB")
 bieudo_coso_phanloai("BC")
 ```
 
-```{r}
-df1 <- lay_co_so_thuoc_theo_thoi_gian("deferasirox_250_vien") %>% mutate(nhom = "deferasirox_250_vien")
-df2 <- lay_co_so_thuoc_theo_thoi_gian("imatinib_100_vien") %>% mutate(nhom = "imatinib_100_vien")
-# df <- merge(df1, df2, by.x = "date", by.y="date")
+### Bang so lieu thong ke (khong dua vao bai viet)
 
-df <- rbind(df1, df2)
-df %>%
-  ggplot(aes(x = date, y = coso)) + 
-  geom_line() + 
-  facet_grid(nhom ~ ., scales = "free_y") + theme(legend.position = "none") +
-  geom_point() +
-  xlab("Thời gian") + 
-  scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
-  ylab("Cơ số sử dụng") + 
-  theme_minimal()
+```{r bang_thongke}
+vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai != "CC")]
+df <- data.frame()
+i <- 1
+while(i <= 27){
+  df_temp <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i])
+  names(df_temp)[2] <- vt_hoatchat[i]
+  if(nrow(df) == 0){
+    df <- df_temp 
+  } else {
+    df <- merge(df, df_temp, by.x = "date", by.y = "date", all.x = TRUE)
+  }
+  
+  i <- i + 1
+}
+df
 ```
