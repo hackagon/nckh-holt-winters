@@ -112,7 +112,7 @@ bieudo_coso_phanloai("BC")
 
 ### Bang so lieu thong ke (khong dua vao bai viet)
 
-```{r bang_thongke}
+```{r bang_thongke, echo=FALSE, results='hide',message=FALSE}
 vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai != "CC")]
 df <- data.frame()
 i <- 1
@@ -128,4 +128,9 @@ while(i <= 27){
   i <- i + 1
 }
 df
+```
+
+```{r kq_bang_thong_ke}
+knitr::kable(df, format="html", 
+             col.names = names(df))
 ```
