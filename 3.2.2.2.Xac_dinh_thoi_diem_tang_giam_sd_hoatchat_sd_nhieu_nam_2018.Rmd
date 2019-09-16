@@ -1,6 +1,6 @@
 ---
-title: 3.2.2.1. Xac dinh xu huong su dung giai doan 2014-2018 cua cac hoat chat duoc
-  su dung nhieu trong nam 2017
+title: 3.2.2.2.Xac dinh thoi diem tang giam su dung trong mot nam cua cac hoat chat
+  su dung nhieu nam 2018
 output:
   md_document:
     variant: markdown_github
@@ -57,12 +57,22 @@ phanloai %>%
 lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
   tonghop %>%
     filter(hoatchat_dvt == !!hoatchat) %>%
-    filter(nam == 2018) %>%
     select(c("xuattrongky_sl", "nam", "thang")) %>%
     mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
     group_by(date) %>%
     summarise(coso = sum(xuattrongky_sl)) %>%
     arrange(date)  
+}
+
+ve_bieu_do_hc_theo_thoi_gian <- function(data){
+data %>%
+  ggplot(aes(x=date, y=coso)) +
+    geom_line() +
+    geom_point() +
+    xlab("Thời gian") + 
+    scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
+    ylab("Cơ số sử dụng") + 
+    theme_minimal()
 }
 
 bieudo_coso_phanloai <- function(pl){
@@ -104,7 +114,7 @@ bieudo_coso_phanloai("BC")
 vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai != "CC")]
 df <- data.frame()
 i <- 1
-while(i <= length(vt_hoatchat)){
+while(i <= 27){
   df_temp <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i])
   names(df_temp)[2] <- vt_hoatchat[i]
   if(nrow(df) == 0){
@@ -122,3 +132,4 @@ df
 knitr::kable(df, format="html", 
              col.names = names(df))
 ```
+
