@@ -1,0 +1,92 @@
+---
+title: "3.2.2.3.So_sanh_khac_biet"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+library(scales)
+library(lattice)
+```
+
+```{r import_data, echo=FALSE, results='hide',message=FALSE}
+tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+```
+
+```{r phanloai, echo=FALSE, results='hide',message=FALSE}
+phanloai <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_thanhtien != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(
+    nhomdieutri = head(nhomdieutri_moi, 1),
+    cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE),
+    cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE),
+    sl_thuoc = n_distinct(ThuongMai)) %>%
+    arrange(desc(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+    mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
+    mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    arrange(desc(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+    mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
+    mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+    filter(phanloai_cs != "C" | phanloai_cp != "C") %>%
+    mutate(phanloai = str_c(phanloai_cs, phanloai_cp, sep = "")) %>%
+  group_by(nhomdieutri) %>%
+  arrange(
+    nhomdieutri,
+    desc(cs_thuoc_percent)) %>%
+  select(c("hoatchat_dvt", "nhomdieutri", "sl_thuoc", "cs_thuoc", "cs_thuoc_percent", "cp_thuoc", "cp_thuoc_percent", "phanloai"))
+
+phanloai$phanloai[which(phanloai$phanloai  == "CA")] <- "AC"
+phanloai$phanloai[which(phanloai$phanloai  == "CB")] <- "BC"
+phanloai$phanloai[which(phanloai$phanloai  == "BA")] <- "AB"
+
+phanloai %>%
+  arrange(phanloai)
+```
+
+```{r thongke, echo=FALSE, results='hide',message=FALSE}
+vt_hc <- c()
+vt_coso_2018 <- c()
+vt_coso_tb <- c()
+vt_sd <- c()
+vt_p <- c()
+for(hc in phanloai$hoatchat_dvt){
+  coso_nam <- tonghop %>% 
+    filter(hoatchat_dvt == hc) %>%
+    select(c("xuattrongky_sl", "nam")) %>%
+    group_by(nam) %>%
+    summarise(coso = sum(xuattrongky_sl))
+
+  coso_2018 <- coso_nam[which(coso_nam$nam == 2018),]$coso
+  
+  vt_hc <- c(vt_hc, hc)
+  vt_coso_2018 <- c(vt_coso_2018, coso_2018)
+  vt_coso_tb <-  c(vt_coso_tb, mean(coso_nam$coso))
+  vt_sd <- c(vt_sd, sd(coso_nam$coso))
+  vt_p <- c(vt_p, t.test(coso_nam$coso, mu=coso_2018, alternative = "two.sided")$p.value)
+}
+
+df <- data.frame(vt_hc, vt_coso_2018, vt_coso_tb, vt_sd, vt_p)
+df <- df %>%
+  mutate(ketluan = ifelse(vt_p < 0.05, "Bác bỏ H0", "Chấp nhận H0"))
+```
+
+```{r kq_bang_thong_ke}
+knitr::kable(df, format="html", 
+             col.names = c("Hoat chat", "Co so nam 2018", "Co so trung binh 2014-2018", "SD", "p-value", "Ket luan"))
+```
+
+
+# TAI LIEU THAM KHAO
+ONE SAMPLE T-TEST
+1. https://www.quora.com/How-do-I-statistically-test-whether-one-single-observation-mean-is-statistically-similar-to-means-of-a-group-of-a-large-number-of-observations-Can-we-use-Welch%E2%80%99s-t-test
+2. https://www.statisticssolutions.com/manova-analysis-one-sample-t-test/

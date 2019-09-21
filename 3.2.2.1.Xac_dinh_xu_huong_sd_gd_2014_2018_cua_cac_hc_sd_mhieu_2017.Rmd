@@ -13,6 +13,7 @@ library(stringr)
 library(plotly)
 library(ggplot2)
 library(scales)
+library(lattice)
 ```
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
@@ -77,7 +78,8 @@ bieudo_coso_phanloai <- function(pl){
   df %>%
     ggplot(aes(x = date, y = coso)) + 
     geom_line() + 
-    facet_grid(hoatchat ~ ., scales = "free_y") + theme(legend.position = "none") +
+    facet_grid(hoatchat ~ ., scales = "free_y") + 
+    theme(strip.background = element_blank(),  axis.title.y = element_text(angle=180, color='red')) +
     geom_point() +
     xlab("Thời gian") + 
     scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
