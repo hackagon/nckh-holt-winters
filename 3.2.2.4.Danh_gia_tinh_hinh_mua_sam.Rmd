@@ -50,9 +50,46 @@ phanloai$phanloai[which(phanloai$phanloai  == "CA")] <- "AC"
 phanloai$phanloai[which(phanloai$phanloai  == "CB")] <- "BC"
 phanloai$phanloai[which(phanloai$phanloai  == "BA")] <- "AB"
 
-phanloai %>%
-  arrange(phanloai)
+phanloai <- phanloai %>%
+  arrange(desc(cs_thuoc))
+```
+
+```{r echo=FALSE, results='hide',message=FALSE}
+vt_coso_sudung_2018 <- c()
+vt_coso_muasam_2018 <- c()
+vt_coso_duoi <- c()
+vt_coso_tren <- c()
+vt_mean <- c()
+vt_hc <- c()
+df <- data.frame()
+for(hc in phanloai$hoatchat_dvt){
+  coso_nam <- tonghop %>% 
+    filter(hoatchat_dvt == hc) %>%
+    select(c("xuattrongky_sl", "nam")) %>%
+    group_by(nam) %>%
+    summarise(coso = sum(xuattrongky_sl))
+  
+  vt_hc <- c(vt_hc, hc)
+  
+  coso_2018 <- coso_nam[which(coso_nam$nam == 2018),]$coso
+  vt_coso_sudung_2018 <- c(vt_coso_sudung_2018, coso_2018)
+  vt_coso_muasam_2018 <- c(vt_coso_muasam_2018, "NA")
+  
+  sd <- qt(0.975,df=4)*sd(coso_nam$coso)
+  mean <- mean(coso_nam$coso)
+  low <- mean - sd/sqrt(5)
+  high <- mean + sd/sqrt(5)
+  vt_mean <- c(vt_mean, mean)
+  vt_coso_duoi <- c(vt_coso_duoi, low)
+  vt_coso_tren <- c(vt_coso_tren, high)
+}
+
+df <- data.frame(vt_hc, vt_coso_sudung_2018, vt_coso_muasam_2018, vt_coso_duoi, vt_coso_tren)
 ```
 
 ```{r}
+knitr::kable(df, format="html", 
+             col.names = c("Hoat chat", "Co so sd 2018", "Co so mua sam 2018", "gioi han duoi", "gioi han tren"))
 ```
+
+
