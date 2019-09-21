@@ -77,7 +77,8 @@ for(hc in phanloai$hoatchat_dvt){
 
 df <- data.frame(vt_hc, vt_coso_2018, vt_coso_tb, vt_sd, vt_p)
 df <- df %>%
-  mutate(ketluan = ifelse(vt_p < 0.05, "Bác bỏ H0", "Chấp nhận H0"))
+  mutate(ketluan = ifelse(vt_p < 0.05, "Bác bỏ H0", "Chấp nhận H0")) %>%
+  arrange(vt_coso_2018)
 ```
 
 ```{r kq_bang_thong_ke}
