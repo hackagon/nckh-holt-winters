@@ -1,9 +1,10 @@
 ---
-title: "3.2.2.3.So_sanh_khac_biet"
+title: "3.2.2.4. Danh gia tinh hinh mua sam"
 output:
   md_document:
     variant: markdown_github
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -50,44 +51,8 @@ phanloai$phanloai[which(phanloai$phanloai  == "CB")] <- "BC"
 phanloai$phanloai[which(phanloai$phanloai  == "BA")] <- "AB"
 
 phanloai %>%
-  arrange(cs_thuoc)
+  arrange(phanloai)
 ```
 
-```{r thongke, echo=FALSE, results='hide',message=FALSE}
-vt_hc <- c()
-vt_coso_2018 <- c()
-vt_coso_tb <- c()
-vt_sd <- c()
-vt_p <- c()
-for(hc in phanloai$hoatchat_dvt){
-  coso_nam <- tonghop %>% 
-    filter(hoatchat_dvt == hc) %>%
-    select(c("xuattrongky_sl", "nam")) %>%
-    group_by(nam) %>%
-    summarise(coso = sum(xuattrongky_sl))
-
-  coso_2018 <- coso_nam[which(coso_nam$nam == 2018),]$coso
-  
-  vt_hc <- c(vt_hc, hc)
-  vt_coso_2018 <- c(vt_coso_2018, coso_2018)
-  vt_coso_tb <-  c(vt_coso_tb, mean(coso_nam$coso))
-  vt_sd <- c(vt_sd, sd(coso_nam$coso))
-  vt_p <- c(vt_p, t.test(coso_nam$coso, mu=coso_2018, alternative = "two.sided")$p.value)
-}
-
-df <- data.frame(vt_hc, vt_coso_2018, vt_coso_tb, vt_sd, vt_p)
-df <- df %>%
-  mutate(ketluan = ifelse(vt_p < 0.05, "Bác bỏ H0", "Chấp nhận H0")) %>%
-  arrange(desc(vt_coso_2018))
+```{r}
 ```
-
-```{r kq_bang_thong_ke}
-knitr::kable(df, format="html", 
-             col.names = c("Hoat chat", "Co so nam 2018", "Co so trung binh 2014-2018", "SD", "p-value", "Ket luan"))
-```
-
-
-# TAI LIEU THAM KHAO
-ONE SAMPLE T-TEST
-1. https://www.quora.com/How-do-I-statistically-test-whether-one-single-observation-mean-is-statistically-similar-to-means-of-a-group-of-a-large-number-of-observations-Can-we-use-Welch%E2%80%99s-t-test
-2. https://www.statisticssolutions.com/manova-analysis-one-sample-t-test/
