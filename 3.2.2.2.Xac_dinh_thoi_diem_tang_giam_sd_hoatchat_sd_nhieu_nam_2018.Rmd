@@ -13,6 +13,7 @@ library(stringr)
 library(plotly)
 library(ggplot2)
 library(scales)
+library(lattice)
 ```
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
@@ -89,7 +90,8 @@ bieudo_coso_phanloai <- function(pl){
   df %>%
     ggplot(aes(x = date, y = coso)) + 
     geom_line() + 
-    facet_grid(hoatchat ~ ., scales = "free_y") + theme(legend.position = "none") +
+    facet_grid(hoatchat ~ ., scales = "free_y") + 
+    theme(strip.background = element_blank(),  axis.title.y = element_text(angle=180, color='red')) +
     geom_point() +
     xlab("Thời gian") + 
     scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
@@ -97,16 +99,33 @@ bieudo_coso_phanloai <- function(pl){
     theme_minimal() +
     ggtitle(label = str_c("Phan loai ", pl))
 }
+
+bieudo_coso_phanloai_2 <- function(pl){
+  vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai == pl)]
+  df <- data.frame()
+  i <- 1
+  while(i <= length(vt_hoatchat)){
+    df_hoatchat <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i]) %>%
+      mutate(hoatchat = vt_hoatchat[i])
+    df <- rbind(df, df_hoatchat)
+    i <- i + 1
+  }
+  
+  xyplot(coso ~ date | hoatchat, data = df, type="b",pch=8,
+         scales=list(y=list(relation="free")),
+       layout=c(1,length(unique(df$hoatchat))),
+       xlab = "Năm", ylab = "Cơ số")
+}
 ```
 
 ### Bieu do (dua vao bai viet)
 
 ```{r bieudo}
-bieudo_coso_phanloai("AA")
-bieudo_coso_phanloai("AB")
-bieudo_coso_phanloai("AC")
-bieudo_coso_phanloai("BB")
-bieudo_coso_phanloai("BC")
+bieudo_coso_phanloai_2("AA")
+bieudo_coso_phanloai_2("AB")
+bieudo_coso_phanloai_2("AC")
+bieudo_coso_phanloai_2("BB")
+bieudo_coso_phanloai_2("BC")
 ```
 
 ### Bang so lieu thong ke (khong dua vao bai viet)
