@@ -1,0 +1,114 @@
+---
+title: "3.2.3.1.Bieu do the hien xu huong su dung cua 27 hoat chat"
+output:
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(stringr)
+library(plotly)
+library(ggplot2)
+library(scales)
+library(lattice)
+library(reshape)
+library(forecast)
+```
+
+```{r echo=FALSE, results='hide',message=FALSE}
+phanloai <- tonghop %>%
+  filter(nam == 2018) %>%
+  filter(xuattrongky_thanhtien != 0) %>%
+  group_by(hoatchat_dvt) %>%
+  summarise(
+    nhomdieutri = head(nhomdieutri_moi, 1),
+    cp_thuoc = sum(xuattrongky_thanhtien, na.rm = TRUE),
+    cs_thuoc = sum(xuattrongky_sl, na.rm = TRUE),
+    sl_thuoc = n_distinct(ThuongMai)) %>%
+  arrange(desc(cp_thuoc)) %>%
+  mutate(cp_thuoc_percent = cp_thuoc*100/sum(cp_thuoc)) %>%
+  mutate(cp_thuoc_percent_tichluy = cumsum(cp_thuoc)*100/sum(cp_thuoc)) %>%
+  mutate(phanloai_cp = ifelse(cp_thuoc_percent_tichluy < 67, "A", ifelse(cp_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+  arrange(desc(cs_thuoc)) %>%
+  mutate(cs_thuoc_percent = cs_thuoc*100/sum(cs_thuoc)) %>%
+  mutate(cs_thuoc_percent_tichluy = cumsum(cs_thuoc)*100/sum(cs_thuoc)) %>%
+  mutate(phanloai_cs = ifelse(cs_thuoc_percent_tichluy < 67, "A", ifelse(cs_thuoc_percent_tichluy < 80, "B", "C"))) %>%
+  filter(phanloai_cs != "C" | phanloai_cp != "C") %>%
+  mutate(phanloai = str_c(phanloai_cs, phanloai_cp, sep = "")) %>%
+  group_by(nhomdieutri) %>%
+  arrange(
+    nhomdieutri,
+    desc(cs_thuoc_percent)) %>%
+  select(c("hoatchat_dvt", "nhomdieutri", "sl_thuoc", "cs_thuoc", "cs_thuoc_percent", "cp_thuoc", "cp_thuoc_percent", "phanloai"))
+
+phanloai$phanloai[which(phanloai$phanloai  == "CA")] <- "AC"
+phanloai$phanloai[which(phanloai$phanloai  == "CB")] <- "BC"
+phanloai$phanloai[which(phanloai$phanloai  == "BA")] <- "AB"
+
+phanloai <- phanloai %>%
+  arrange(desc(cs_thuoc))
+```
+
+```{r utils_function, echo=FALSE, results='hide',message=FALSE}
+lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
+  thuoc <- tonghop %>%
+    filter(hoatchat_dvt == !!hoatchat) %>%
+    select(c("xuattrongky_sl", "nam", "thang")) %>%
+    mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
+    group_by(date) %>%
+    summarise(coso = sum(xuattrongky_sl)) %>%
+    arrange(date)  
+  
+  vt_nam <- c(rep(2014, 12), rep(2015, 12), rep(2016, 12), rep(2017, 12), rep(2018, 12))
+  vt_thang <- c(rep(c(1:12), 5))
+  vt_ngay <- c(rep(1, 60))
+  vt_date <- as.Date((str_c(vt_nam, vt_thang, vt_ngay, sep="-")))
+  
+  i <- 1
+  while(i <= length(vt_date)){
+    index <- which(thuoc$date == vt_date[i])
+    if(length(index) == 0){
+      n_index <- nrow(thuoc) + 1
+      thuoc[n_index, 1] <- vt_date[i]
+      thuoc[n_index, 2] <- 0
+    }
+    i <- i + 1
+  }
+  
+  thuoc %>% arrange(date)
+}
+
+bieudo_coso_phanloai_2 <- function(pl, vt_mar){
+  vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai == pl)]
+  #vt_hoatchat <- vt_hoatchat[which(vt_hoatchat != "bortezomib_1mg_lo")]
+  sl_hoatchat <- length(vt_hoatchat)
+  
+  
+  par(mar=vt_mar)
+  grid <- matrix(c(1:sl_hoatchat),nrow=sl_hoatchat,ncol=1,byrow=TRUE)
+  layout(grid, widths=1, respect=FALSE)
+
+  i <- 1
+  while(i <= sl_hoatchat){
+    df_hoatchat <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i]) %>%
+      mutate(hoatchat = vt_hoatchat[i])
+    
+    coso_thuoc <- as.ts(df_hoatchat$coso)
+    coso_date <- ts(coso_thuoc, start=c(2014, 1), frequency = 12)
+    hw <- HoltWinters(coso_date)
+    fit <- forecast:::forecast.HoltWinters(hw)
+    plot(fit, main = vt_hoatchat[i])
+    i <- i + 1
+  }
+}
+```
+
+```{r}
+bieudo_coso_phanloai_2("AA", c(2,1,2,1))
+bieudo_coso_phanloai_2("AB", c(2,1,2,1))
+bieudo_coso_phanloai_2("AC", c(2,1,2,1))
+bieudo_coso_phanloai_2("BB", c(2,1,2,1))
+bieudo_coso_phanloai_2("BC", c(1,1,1,1))
+```
