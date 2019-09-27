@@ -1,5 +1,5 @@
 ---
-title: "3.2.3.1.Bieu do the hien xu huong su dung cua 27 hoat chat"
+title: "3.2.3.2.Du_lieu_co_so_du_bao_2019_2020"
 output:
   md_document:
     variant: markdown_github
@@ -55,7 +55,6 @@ phanloai <- phanloai %>%
   arrange(desc(cs_thuoc))
 ```
 
-
 ```{r utils_function, echo=FALSE, results='hide',message=FALSE}
 lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
   thuoc <- tonghop %>%
@@ -64,7 +63,7 @@ lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
     mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
     group_by(date) %>%
     summarise(coso = sum(xuattrongky_sl)) %>%
-    arrange(date)  
+    arrange(date) 
   
   vt_nam <- c(rep(2014, 12), rep(2015, 12), rep(2016, 12), rep(2017, 12), rep(2018, 12))
   vt_thang <- c(rep(c(1:12), 5))
@@ -82,19 +81,19 @@ lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
     i <- i + 1
   }
   
-  thuoc %>% arrange(date)
+  thuoc %>% 
+    arrange(date) %>%
+    mutate(nam = str_sub(date, 1, 4))
 }
 
-bieudo_coso_phanloai_2 <- function(pl, vt_mar){
+coso_tb_dudoan <- function(pl){
   vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai == pl)]
   #vt_hoatchat <- vt_hoatchat[which(vt_hoatchat != "bortezomib_1mg_lo")]
   sl_hoatchat <- length(vt_hoatchat)
-  
-  
-  par(mar=vt_mar)
-  grid <- matrix(c(1:sl_hoatchat),nrow=sl_hoatchat,ncol=1,byrow=TRUE)
-  layout(grid, widths=1, respect=FALSE)
 
+  vt_coso_tb_2014_2018 <- c()
+  vt_dudoan_2019 <- c()
+  vt_dudoan_2020 <- c()
   i <- 1
   while(i <= sl_hoatchat){
     df_hoatchat <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i]) %>%
@@ -104,16 +103,56 @@ bieudo_coso_phanloai_2 <- function(pl, vt_mar){
     coso_date <- ts(coso_thuoc, start=c(2014, 1), frequency = 12)
     hw <- HoltWinters(coso_date)
     fit <- forecast:::forecast.HoltWinters(hw)
-    plot(fit, main = vt_hoatchat[i])
+    
+    dudoan_2019 <- sum(fit$mean[1:12])
+    vt_dudoan_2019 <- c(vt_dudoan_2019, dudoan_2019)
+    
+    dudoan_2020 <- sum(fit$mean[13:24])
+    vt_dudoan_2020 <- c(vt_dudoan_2020, dudoan_2020)
+    
+    coso_tb_2014_2018 <- sum(coso_thuoc)/5 # 5 years
+    vt_coso_tb_2014_2018 <- c(vt_coso_tb_2014_2018, coso_tb_2014_2018)
     i <- i + 1
   }
+  
+  data.frame(vt_hoatchat, vt_coso_tb_2014_2018, vt_dudoan_2019, vt_dudoan_2020)
 }
 ```
 
+```{r echo=FALSE, results='hide',message=FALSE}
+dudoan_AA <- coso_tb_dudoan("AA")
+dudoan_AB <- coso_tb_dudoan("AB")
+dudoan_AC <- coso_tb_dudoan("AC")
+dudoan_BB <- coso_tb_dudoan("BB")
+dudoan_BC <- coso_tb_dudoan("BC")
+```
+
+## Phan loai AA
 ```{r}
-bieudo_coso_phanloai_2("AA", c(2,1,2,1))
-bieudo_coso_phanloai_2("AB", c(2,1,2,1))
-bieudo_coso_phanloai_2("AC", c(2,1,2,1))
-bieudo_coso_phanloai_2("BB", c(2,1,2,1))
-bieudo_coso_phanloai_2("BC", c(1,1,1,1))
+knitr::kable(dudoan_AA, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
+```
+
+## Phan loai AB
+```{r}
+knitr::kable(dudoan_AB, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
+```
+
+## Phan loai AC
+```{r}
+knitr::kable(dudoan_AC, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
+```
+
+## Phan loai BB
+```{r}
+knitr::kable(dudoan_BB, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
+```
+
+## Phan loai BC
+```{r}
+knitr::kable(dudoan_BC, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
 ```
