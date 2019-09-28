@@ -103,12 +103,15 @@ while(i <= nrow(phanloai)){
 }
 
 danhgia_bietduoc <- data.frame(vt_hoatchat, vt_coso_sd_tt_6th_2019, vt_coso_muasam_6th_2019, vt_coso_mohinh_6th_2019)
+
+danhgia_bietduoc$chenhlech_musam_thucte <- (danhgia_bietduoc$vt_coso_muasam_6th_2019 - danhgia_bietduoc$vt_coso_sd_tt_6th_2019)/danhgia_bietduoc$vt_coso_sd_tt_6th_2019
+danhgia_bietduoc$chenhlech_mohinh_thucte <- (danhgia_bietduoc$vt_coso_mohinh_6th_2019 - danhgia_bietduoc$vt_coso_sd_tt_6th_2019)/danhgia_bietduoc$vt_coso_sd_tt_6th_2019
 ```
 
 ## Bang danh gia biet duoc
 ```{r}
 knitr::kable(danhgia_bietduoc, format="html", 
-            col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan"))
+            col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan", "% Chenh lech giua co so mua sam va thuc te", "% Chenh lech giua co so du doan va thuc te"))
 ```
 
 ## Bang danh gia generic
@@ -152,10 +155,13 @@ while(i <= nrow(phanloai)){
 }
 
 danhgia_generic <- data.frame(vt_hoatchat, vt_coso_sd_tt_9th_2019, vt_coso_muasam_9th_2019, vt_coso_mohinh_9th_2019)
+
+danhgia_generic$chenhlech_musam_thucte <- (danhgia_generic$vt_coso_muasam_9th_2019 - danhgia_generic$vt_coso_sd_tt_9th_2019)/danhgia_generic$vt_coso_sd_tt_9th_2019
+danhgia_generic$chenhlech_mohinh_thucte <- (danhgia_generic$vt_coso_mohinh_9th_2019 - danhgia_generic$vt_coso_sd_tt_9th_2019)/danhgia_generic$vt_coso_sd_tt_9th_2019
 ```
 
 ## Bang danh gia Generic
 ```{r}
 knitr::kable(danhgia_generic, format="html", 
-            col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan"))
+            col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan", "% Chenh lech giua co so mua sam va thuc te", "% Chenh lech giua co so du doan va thuc te"))
 ```
