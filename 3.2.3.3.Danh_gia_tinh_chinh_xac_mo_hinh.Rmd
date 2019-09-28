@@ -114,7 +114,6 @@ knitr::kable(danhgia_bietduoc, format="html",
             col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan", "% Chenh lech giua co so mua sam va thuc te", "% Chenh lech giua co so du doan va thuc te"))
 ```
 
-## Bang danh gia generic
 ```{r generic, echo=FALSE, results='hide',message=FALSE}
 vt_hoatchat <- c()
 vt_coso_sd_tt_9th_2019 <- c()
