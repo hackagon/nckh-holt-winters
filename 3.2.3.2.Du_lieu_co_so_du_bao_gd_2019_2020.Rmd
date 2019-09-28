@@ -120,39 +120,16 @@ coso_tb_dudoan <- function(pl){
 ```
 
 ```{r echo=FALSE, results='hide',message=FALSE}
-dudoan_AA <- coso_tb_dudoan("AA")
-dudoan_AB <- coso_tb_dudoan("AB")
-dudoan_AC <- coso_tb_dudoan("AC")
-dudoan_BB <- coso_tb_dudoan("BB")
-dudoan_BC <- coso_tb_dudoan("BC")
+dudoan_AA <- coso_tb_dudoan("AA") %>% mutate(phanloai = "AA")
+dudoan_AB <- coso_tb_dudoan("AB") %>% mutate(phanloai = "AB")
+dudoan_AC <- coso_tb_dudoan("AC") %>% mutate(phanloai = "AC")
+dudoan_BB <- coso_tb_dudoan("BB") %>% mutate(phanloai = "BB")
+dudoan_BC <- coso_tb_dudoan("BC") %>% mutate(phanloai = "BC")
+
+dudoan <- rbind(dudoan_AA, dudoan_AB, dudoan_AC, dudoan_BB, dudoan_BC)
 ```
 
-## Phan loai AA
 ```{r}
-knitr::kable(dudoan_AA, format="html", 
-            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
-```
-
-## Phan loai AB
-```{r}
-knitr::kable(dudoan_AB, format="html", 
-            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
-```
-
-## Phan loai AC
-```{r}
-knitr::kable(dudoan_AC, format="html", 
-            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
-```
-
-## Phan loai BB
-```{r}
-knitr::kable(dudoan_BB, format="html", 
-            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
-```
-
-## Phan loai BC
-```{r}
-knitr::kable(dudoan_BC, format="html", 
-            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020"))
+knitr::kable(dudoan, format="html", 
+            col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020", "phanloai"))
 ```

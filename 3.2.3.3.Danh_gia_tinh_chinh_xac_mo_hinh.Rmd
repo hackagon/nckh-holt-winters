@@ -1,9 +1,13 @@
 ---
-title: "3.2.3.1.Bieu do the hien xu huong su dung cua 27 hoat chat"
+title: "3.2.3.3. Danh gia tinh chinh xac cua mo hinh"
 output:
   md_document:
     variant: markdown_github
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -19,6 +23,11 @@ library(forecast)
 
 ```{r import_data, echo=FALSE, results='hide',message=FALSE}
 tonghop <- read.csv("/home/hackagon/nckh-holt-winters/csv/tonghop_processed.csv", stringsAsFactors = FALSE)
+
+tt_2019 <- read.csv("/home/hackagon/nckh-holt-winters/csv/tt_2019.csv", stringsAsFactors = FALSE)
+
+danhgia_muasam <- read.csv("/home/hackagon/nckh-holt-winters/csv/danhgia_muasam.csv", stringsAsFactors = FALSE)
+danhgia_muasam$coso_muasam_2018 <- as.integer(gsub(danhgia_muasam$coso_muasam_2018, pattern = ",", replacement = ""))  
 ```
 
 ```{r echo=FALSE, results='hide',message=FALSE}
@@ -55,65 +64,41 @@ phanloai <- phanloai %>%
   arrange(desc(cs_thuoc))
 ```
 
+```{r bietduoc}
+vt_hoatchat <- c()
+vt_coso_sd_tt_6th_2019 <- c()
+vt_coso_muasam_6th_2019 <- c()
+vt_coso_mohinh_6th_2019 <- c()
 
-```{r utils_function, echo=FALSE, results='hide',message=FALSE}
-lay_co_so_thuoc_theo_thoi_gian <- function(hoatchat){
-  thuoc <- tonghop %>%
-    filter(hoatchat_dvt == !!hoatchat) %>%
-    select(c("xuattrongky_sl", "nam", "thang")) %>%
-    mutate(date = as.Date(str_c(nam, thang, "01", sep = "-"))) %>%
-    group_by(date) %>%
-    summarise(coso = sum(xuattrongky_sl)) %>%
-    arrange(date)  
-  
-  vt_nam <- c(rep(2014, 12), rep(2015, 12), rep(2016, 12), rep(2017, 12), rep(2018, 12))
-  vt_thang <- c(rep(c(1:12), 5))
-  vt_ngay <- c(rep(1, 60))
-  vt_date <- as.Date((str_c(vt_nam, vt_thang, vt_ngay, sep="-")))
-  
-  i <- 1
-  while(i <= length(vt_date)){
-    index <- which(thuoc$date == vt_date[i])
-    if(length(index) == 0){
-      n_index <- nrow(thuoc) + 1
-      thuoc[n_index, 1] <- vt_date[i]
-      thuoc[n_index, 2] <- 0
-    }
-    i <- i + 1
-  }
-  
-  thuoc %>% arrange(date)
-}
-
-bieudo_coso_phanloai_2 <- function(pl, vt_mar){
-  vt_hoatchat <- phanloai$hoatchat_dvt[which(phanloai$phanloai == pl)]
-  vt_hoatchat <- vt_hoatchat[which(vt_hoatchat != "kali_clorid_600_vien")]
-  sl_hoatchat <- length(vt_hoatchat)
-  
-  
-  par(mar=vt_mar)
-  grid <- matrix(c(1:sl_hoatchat),nrow=sl_hoatchat,ncol=1,byrow=TRUE)
-  layout(grid, widths=1, respect=FALSE)
-
-  i <- 1
-  while(i <= sl_hoatchat){
-    df_hoatchat <- lay_co_so_thuoc_theo_thoi_gian(vt_hoatchat[i]) %>%
-      mutate(hoatchat = vt_hoatchat[i])
+i <- 1
+while(i <= nrow(phanloai)){
+  hoatchat <- phanloai$hoatchat_dvt[i]
+  index <- which(tonghop$hoatchat_dvt == hoatchat)
+  nhomBD <- unique(tonghop$nhomBD[index])
+  if(length(nhomBD) == 1 && unique(nhomBD) == 1){
+    # hoat chat
+    vt_hoatchat <- c(vt_hoatchat, hoatchat)
     
-    coso_thuoc <- as.ts(df_hoatchat$coso)
-    coso_date <- ts(coso_thuoc, start=c(2014, 1), frequency = 12)
-    hw <- HoltWinters(coso_date)
-    fit <- forecast:::forecast.HoltWinters(hw)
-    plot(fit, main = vt_hoatchat[i])
-    i <- i + 1
+    # coso sd thuc te
+    tt_2019 <- tt_2019 %>% filter(thang %in% c(1,2,3,4,5,6))
+    thuoc_index <- which(tt_2019$hoatchat_dvt == hoatchat) 
+    coso_sd_tt_6th_2019 <- sum(tt_2019$xuattrongky_sl[thuoc_index])
+    vt_coso_sd_tt_6th_2019 <- c(vt_coso_sd_tt_6th_2019, coso_sd_tt_6th_2019)
+    
+    # coso mua sam
+    thuoc_index_2 <- which(danhgia_muasam$hoatchat == hoatchat)
+    coso_muasam_12th <- danhgia_muasam$coso_muasam_2018[thuoc_index_2]
+    df_coso_sd_6thcuoi_2018 <- tonghop %>% 
+      filter(hoatchat_dvt == !!hoatchat) %>%
+      filter(nam == 2018) %>%
+      filter(thang %in% c(7,8,9,10,11,12)) %>%
+      summarise(tong = sum(xuattrongky_sl))
+    coso_sd_6thcuoi_2018 <- df_coso_sd_6thcuoi_2018$tong
+    coso_muasam_6th_2019 <- coso_muasam_12th - coso_sd_6thcuoi_2018
+    vt_coso_muasam_6th_2019 <- c(vt_coso_muasam_6th_2019, coso_muasam_6th_2019)
   }
+  i <- i + 1
 }
-```
 
-```{r}
-bieudo_coso_phanloai_2("AA", c(2,1,2,1))
-bieudo_coso_phanloai_2("AB", c(2,1,2,1))
-bieudo_coso_phanloai_2("AC", c(2,1,2,1))
-bieudo_coso_phanloai_2("BB", c(2,1,2,1))
-bieudo_coso_phanloai_2("BC", c(1,1,1,1))
+data.frame(vt_hoatchat, vt_coso_sd_tt_6th_2019, vt_coso_muasam_6th_2019)
 ```
