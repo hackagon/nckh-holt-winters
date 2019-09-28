@@ -78,9 +78,9 @@ while(i <= nrow(phanloai)){
     vt_hoatchat <- c(vt_hoatchat, hoatchat)
     
     # coso sd thuc te
-    tt_2019 <- tt_2019 %>% filter(thang %in% c(1,2,3,4,5,6))
-    thuoc_index <- which(tt_2019$hoatchat_dvt == hoatchat) 
-    coso_sd_tt_6th_2019 <- sum(tt_2019$xuattrongky_sl[thuoc_index])
+    tt_2019_6th <- tt_2019 %>% filter(thang %in% c(1,2,3,4,5,6))
+    thuoc_index <- which(tt_2019_6th$hoatchat_dvt == hoatchat) 
+    coso_sd_tt_6th_2019 <- sum(tt_2019_6th$xuattrongky_sl[thuoc_index])
     vt_coso_sd_tt_6th_2019 <- c(vt_coso_sd_tt_6th_2019, coso_sd_tt_6th_2019)
     
     # coso mua sam
@@ -105,7 +105,57 @@ while(i <= nrow(phanloai)){
 danhgia_bietduoc <- data.frame(vt_hoatchat, vt_coso_sd_tt_6th_2019, vt_coso_muasam_6th_2019, vt_coso_mohinh_6th_2019)
 ```
 
+## Bang danh gia biet duoc
 ```{r}
 knitr::kable(danhgia_bietduoc, format="html", 
+            col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan"))
+```
+
+## Bang danh gia generic
+```{r generic, echo=FALSE, results='hide',message=FALSE}
+vt_hoatchat <- c()
+vt_coso_sd_tt_9th_2019 <- c()
+vt_coso_muasam_9th_2019 <- c()
+vt_coso_mohinh_9th_2019 <- c()
+
+i <- 1
+while(i <= nrow(phanloai)){
+  hoatchat <- phanloai$hoatchat_dvt[i]
+  index <- which(tonghop$hoatchat_dvt == hoatchat)
+  nhomBD <- unique(tonghop$nhomBD[index])
+  if(length(nhomBD) == 1 && unique(nhomBD) == 2){
+    # hoat chat
+    vt_hoatchat <- c(vt_hoatchat, hoatchat)
+    
+    # coso sd thuc te
+    thuoc_index <- which(tt_2019$hoatchat_dvt == hoatchat) 
+    coso_sd_tt_9th_2019 <- sum(tt_2019$xuattrongky_sl[thuoc_index])
+    vt_coso_sd_tt_9th_2019 <- c(vt_coso_sd_tt_9th_2019, coso_sd_tt_9th_2019)
+    
+    # coso mua sam
+    thuoc_index_2 <- which(danhgia_muasam$hoatchat == hoatchat)
+    coso_muasam_12th <- danhgia_muasam$coso_muasam_2018[thuoc_index_2]
+    df_coso_sd_3thcuoi_2018 <- tonghop %>% 
+      filter(hoatchat_dvt == !!hoatchat) %>%
+      filter(nam == 2018) %>%
+      filter(thang %in% c(10,11,12)) %>%
+      summarise(tong = sum(xuattrongky_sl))
+    coso_sd_3thcuoi_2018 <- df_coso_sd_3thcuoi_2018$tong
+    coso_muasam_9th_2019 <- coso_muasam_12th - coso_sd_3thcuoi_2018
+    vt_coso_muasam_9th_2019 <- c(vt_coso_muasam_9th_2019, coso_muasam_9th_2019)
+    
+    # coso mo hinh
+    dudoan_index <- which(dudoan$vt_hoatchat == hoatchat)
+    vt_coso_mohinh_9th_2019 <-c(vt_coso_mohinh_9th_2019, dudoan$vt_dudoan_2019_9thdau[dudoan_index])
+  }
+  i <- i + 1
+}
+
+danhgia_generic <- data.frame(vt_hoatchat, vt_coso_sd_tt_9th_2019, vt_coso_muasam_9th_2019, vt_coso_mohinh_9th_2019)
+```
+
+## Bang danh gia Generic
+```{r}
+knitr::kable(danhgia_generic, format="html", 
             col.names = c("Hoat chat", "Co so su dung thuc te", "Co so mua sam", "Co so du doan"))
 ```

@@ -94,6 +94,7 @@ coso_tb_dudoan <- function(pl){
   vt_coso_tb_2014_2018 <- c()
   vt_dudoan_2019 <- c()
   vt_dudoan_2019_6thdau <- c()
+  vt_dudoan_2019_9thdau <- c()
   vt_dudoan_2020 <- c()
   i <- 1
   while(i <= sl_hoatchat){
@@ -108,7 +109,9 @@ coso_tb_dudoan <- function(pl){
     dudoan_2019 <- sum(fit$mean[1:12])
     vt_dudoan_2019 <- c(vt_dudoan_2019, dudoan_2019)
     dudoan_2019_6thdau <- sum(fit$mean[1:6])
+    dudoan_2019_9thdau <- sum(fit$mean[1:9])
     vt_dudoan_2019_6thdau <- c(vt_dudoan_2019_6thdau, dudoan_2019_6thdau)
+    vt_dudoan_2019_9thdau <- c(vt_dudoan_2019_9thdau, dudoan_2019_9thdau)
     
     dudoan_2020 <- sum(fit$mean[13:24])
     vt_dudoan_2020 <- c(vt_dudoan_2020, dudoan_2020)
@@ -118,7 +121,7 @@ coso_tb_dudoan <- function(pl){
     i <- i + 1
   }
   
-  data.frame(vt_hoatchat, vt_coso_tb_2014_2018, vt_dudoan_2019, vt_dudoan_2020, vt_dudoan_2019_6thdau)
+  data.frame(vt_hoatchat, vt_coso_tb_2014_2018, vt_dudoan_2019, vt_dudoan_2020, vt_dudoan_2019_6thdau, vt_dudoan_2019_9thdau)
 }
 ```
 
