@@ -93,6 +93,7 @@ coso_tb_dudoan <- function(pl){
 
   vt_coso_tb_2014_2018 <- c()
   vt_dudoan_2019 <- c()
+  vt_dudoan_2019_6thdau <- c()
   vt_dudoan_2020 <- c()
   i <- 1
   while(i <= sl_hoatchat){
@@ -106,6 +107,8 @@ coso_tb_dudoan <- function(pl){
     
     dudoan_2019 <- sum(fit$mean[1:12])
     vt_dudoan_2019 <- c(vt_dudoan_2019, dudoan_2019)
+    dudoan_2019_6thdau <- sum(fit$mean[1:6])
+    vt_dudoan_2019_6thdau <- c(vt_dudoan_2019_6thdau, dudoan_2019_6thdau)
     
     dudoan_2020 <- sum(fit$mean[13:24])
     vt_dudoan_2020 <- c(vt_dudoan_2020, dudoan_2020)
@@ -115,7 +118,7 @@ coso_tb_dudoan <- function(pl){
     i <- i + 1
   }
   
-  data.frame(vt_hoatchat, vt_coso_tb_2014_2018, vt_dudoan_2019, vt_dudoan_2020)
+  data.frame(vt_hoatchat, vt_coso_tb_2014_2018, vt_dudoan_2019, vt_dudoan_2020, vt_dudoan_2019_6thdau)
 }
 ```
 
@@ -127,9 +130,12 @@ dudoan_BB <- coso_tb_dudoan("BB") %>% mutate(phanloai = "BB")
 dudoan_BC <- coso_tb_dudoan("BC") %>% mutate(phanloai = "BC")
 
 dudoan <- rbind(dudoan_AA, dudoan_AB, dudoan_AC, dudoan_BB, dudoan_BC)
+
+write.csv(dudoan, "/home/hackagon/nckh-holt-winters/csv/dudoan.csv")
 ```
 
 ```{r}
 knitr::kable(dudoan, format="html", 
             col.names = c("Hoat chat", "Co so TB 2014-2018", "Du doan 2019", "Du doan 2020", "phanloai"))
 ```
+
